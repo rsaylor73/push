@@ -1,0 +1,29 @@
+<h2>Dashboard</h2>
+<ul>
+	<li><a href="index.php?action=push">Send Apple Push Message</a></li>
+	<li><a href="index.php?action=android">Send Android Cloud Message</a></li>
+</ul>
+	<?php
+	if ($settings[9] == "Yes") {
+		print "<br><h2>Super Admin</h2>
+		<ul>
+			<li><a href=\"index.php?action=new_push_site\">Create New Push Site</a></li>
+			<li><a href=\"index.php?action=manage\">Manage Push Sites</a></li>
+		</ul>
+
+		<h2>Templates</h2>
+		<ul>
+			<li><a href=\"index.php?action=get_template_block&id=10\">General Template</a></li>
+                        <li><a href=\"index.php?action=get_template_block&id=11\">Header Template</a></li>
+                        <li><a href=\"index.php?action=get_template_block&id=12\">App Name Template</a></li>
+                        <li><a href=\"index.php?action=get_template_block&id=13\">Page Template</a></li>
+                        <li><a href=\"index.php?action=get_template_block&id=14\">Menu Template</a></li>
+                        <li><a href=\"index.php?action=get_template_block&id=15\">Area Template</a></li>
+                        <li><a href=\"index.php?action=get_template_block&id=16\">Buttons Template</a></li>
+                        <li><a href=\"index.php?action=get_template_block&id=17\">Delete/Cancel Template</a></li>
+                        <li><a href=\"index.php?action=get_template_block&id=18\">Drop Down Template</a></li>
+		</ul>
+
+		";
+	}
+	?>

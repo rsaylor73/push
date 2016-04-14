@@ -1,0 +1,20 @@
+<?php
+	$logo = $server_settings[8];
+	if ($logo != "") {
+		$dis_logo = "<img src=\"img/$logo\" height=\"130\">";
+	}
+?>
+
+<div id="header">
+        <div id="logo">
+              <?=$dis_logo;?>
+        </div>
+
+	<div id="nav">
+		<button span class="btn btn-default glyphicon glyphicon-home" onclick="document.location.href='index.php'"></button>
+		<button span class="btn btn-default glyphicon glyphicon-off" onclick="document.location.href='index.php?action=logout'"></button>
+	</div>
+
+</div>
+
+<div id="page_view">

@@ -1,0 +1,6 @@
+tokens.txt
+settings.php
+capture_token.php
+*.pem
+img/*
+
