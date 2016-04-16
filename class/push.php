@@ -689,7 +689,9 @@ class Push {
                         print "<br><font color=red>ACCESS DENIED</font><br>";
                         die;
                 }
+                print "Test 1<br>";
 		$server_settings = $this->get_server_settings();
+		print "Test 2<br>";
 
 		// check for username
 		$sql = "SELECT `uuname` FROM .".LOCAL_DB."`sites` WHERE `uuname` = '$_POST[uuname]'";
