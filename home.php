@@ -27,7 +27,7 @@ Please complete the form below to be re-directed to your personal login page.<br
 }
 
 if ($_POST['action'] == "login") {
-	$sql = "SELECT * FROM `push_push`.`sites` WHERE `uuname` = '$_POST[uuname]' AND `uupass` = '$_POST[uupass]'";
+	$sql = "SELECT * FROM ".LOCAL_DB.".`sites` WHERE `uuname` = '$_POST[uuname]' AND `uupass` = '$_POST[uupass]'";
 	$result = $push->new_mysql($sql);
 	while ($row = $result->fetch_assoc()) {
 		header('Location: http://' . $row['sub'] . '.push.theappwizards.com');

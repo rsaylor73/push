@@ -23,11 +23,11 @@ class Push {
 		$result = $this->new_mysql($sql);
 		while ($row = $result->fetch_assoc()) {
 
-			$pem = $row['pem']; //"framing_production.pem"; // pem file created from p12 must use password with apn
-			$id = $row['app_id']; //"7"; // app ID in Siberian
-			$crypto = $row['crypto']; //"rb102573"; // password set in the p12 file
-			$uuname = $row['uuname']; //"admin";
-			$uupass = $row ['uupass']; //"passw0rd";
+			$pem = $row['pem']; 
+			$id = $row['app_id']; 
+			$crypto = $row['crypto']; 
+			$uuname = $row['uuname']; 
+			$uupass = $row ['uupass']; 
 			$domain = "http://$row[sub].push.theappwizards.com/";
 			$path = "/home/push/www/push/";
 			$logo = $row['logo'];
