@@ -50,7 +50,7 @@ class Push {
 			}
 		}
 
-		$sql = "SELECT * FROM `settings` WHERE `id` = '1'";
+		$sql = "SELECT * FROM ".LOCAL_DB."`settings` WHERE `id` = '1'";
 		while ($row = $result->fetch_assoc()) {
 			$api_gcm = $row['api_gcm'];
 		}
