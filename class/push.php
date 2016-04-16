@@ -713,29 +713,29 @@ class Push {
                 $tmpName  = $_FILES['pem']['tmp_name'];
                 $fileSize = $_FILES['pem']['size'];
                 $fileType = $_FILES['pem']['type'];
-		$theFile = "/home/push/public_html/" . $fileName;
-		if (file_exists($theFile)) {
-			print "<br><font color=red>ERROR: PEM file exists. Please rename the file then upload again.</font><br>";
-			die;
-		}
+				$theFile = PATH . "/" . $fileName;
+				if (file_exists($theFile)) {
+					print "<br><font color=red>ERROR: PEM file exists. Please rename the file then upload again.</font><br>";
+					die;
+				}
 
                 $fileName2 = $_FILES['logo']['name'];
                 $tmpName2  = $_FILES['logo']['tmp_name'];
                 $fileSize2 = $_FILES['logo']['size'];
                 $fileType2 = $_FILES['logo']['type'];
-                $theFile2 = "/home/push/public_html/img/" . $fileName2;
+                $theFile2 = PATH . "/img/" . $fileName2;
                 if (file_exists($theFile2)) {
                         print "<br><font color=red>ERROR: LOGO file exists. Please rename the file then upload again.</font><br>";
-			die;
-		}
+						die;
+				}
 
 
 
                 include_once 'class/xmlapi.php';
-		$server_ip = $server_settings[0];
-		$xmlapi = new xmlapi($server_ip);
-		$domain_user = $server_settings[1];
-		$domain_pw = $server_settings[2];
+				$server_ip = $server_settings[0];
+				$xmlapi = new xmlapi($server_ip);
+				$domain_user = $server_settings[1];
+				$domain_pw = $server_settings[2];
 
                 # switch to cPanel
                 $xmlapi->set_debug(1);
@@ -753,9 +753,9 @@ class Push {
                 $new_array = $this->objectToArray($json_data);
 
                 $new_result = $new_array['data']['result'];
-                if (preg_match('/was successfully/i', $new_result)) {
+                if (preg_match('/successfully/i', $new_result)) {
                         print "<br><font color=green>The domain was created sucessfully.<br></font>";
-			// save files now and add to DB
+						// save files now and add to DB
                         move_uploaded_file("$tmpName", "$fileName");
                         move_uploaded_file("$tmpName2", "img/$fileName2");
 
