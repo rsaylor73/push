@@ -29,12 +29,13 @@ class Push {
 			$uuname = $row['uuname']; 
 			$uupass = $row ['uupass']; 
 
-			if ($row['sub'] != SUBPATH) {
-				$sub = $row['sub'];
-			} else {
+			if ($server[0] == "pushdev") {
 				$sub = "";
+			} else {
+				$sub = $row['sub'];
 			}
 
+			
 			$domain = "http://$sub".SUBPATH.".theappwizards.com/".ENDPATH;
 			$path = PATH;
 			$logo = $row['logo'];
