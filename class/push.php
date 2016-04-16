@@ -511,7 +511,7 @@ class Push {
         }
 
 	public function get_server_settings() {
-		$sql = "SELECT * FROM `settings` WHERE `id` = '1'";
+		$sql = "SELECT * FROM ".LOCAL_DB."`settings` WHERE `id` = '1'";
 		$result = $this->new_mysql($sql);
 		while ($row = $result->fetch_assoc()) {
 			$server_ip = $row['server_ip'];
