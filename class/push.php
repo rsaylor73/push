@@ -28,8 +28,8 @@ class Push {
 			$crypto = $row['crypto']; 
 			$uuname = $row['uuname']; 
 			$uupass = $row ['uupass']; 
-			$domain = "http://$row[sub].push.theappwizards.com/";
-			$path = "/home/push/www/push/";
+			$domain = "http://$row[sub]".SUBPATH.".theappwizards.com/".ENDPATH;
+			$path = PATH;
 			$logo = $row['logo'];
 			$found = "1";
 			$super = $row['super_admin'];
