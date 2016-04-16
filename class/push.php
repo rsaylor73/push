@@ -33,6 +33,7 @@ class Push {
 				$sub = "";
 			} else {
 				$sub = $row['sub'];
+				$sub .= ".";
 			}
 
 			
