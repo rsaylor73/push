@@ -28,7 +28,14 @@ class Push {
 			$crypto = $row['crypto']; 
 			$uuname = $row['uuname']; 
 			$uupass = $row ['uupass']; 
-			$domain = "http://$row[sub]".SUBPATH.".theappwizards.com/".ENDPATH;
+
+			if ($row['sub'] != SUBPATH) {
+				$sub = $row['sub'];
+			} else {
+				$sub = "";
+			}
+
+			$domain = "http://$sub".SUBPATH.".theappwizards.com/".ENDPATH;
 			$path = PATH;
 			$logo = $row['logo'];
 			$found = "1";
