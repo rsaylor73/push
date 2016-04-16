@@ -541,7 +541,7 @@ class Push {
 		print "<form action=\"index.php\" method=\"post\" enctype=\"multipart/form-data\">
 		<input type=\"hidden\" name=\"action\" value=\"create_new_site\">
 		<table class=\"table\">
-		<tr><td>Sub Domain</td><td>http://<input type=\"text\" name=\"sub\" size=40 required>.push.theappwizards.com</td></tr>
+		<tr><td>Sub Domain</td><td>http://<input type=\"text\" name=\"sub\" size=40 required>.".SUBPATH.".theappwizards.com</td></tr>
 		<tr><td>PEM File:</td><td><input type=\"file\" name=\"pem\" required></td></tr>
 		<tr><td>PEM Password:</td><td><input type=\"text\" name=\"crypto\" size=40 required></td></tr>
 		<tr><td>Siberian App ID:</td><td><input type=\"text\" name=\"app_id\" size=20 required></td></tr>
