@@ -50,7 +50,7 @@ class Push {
 			}
 		}
 
-		$sql = "SELECT * FROM ".LOCAL_DB."`settings` WHERE `id` = '1'";
+		$sql = "SELECT * FROM ".LOCAL_DB.".`settings` WHERE `id` = '1'";
 		while ($row = $result->fetch_assoc()) {
 			$api_gcm = $row['api_gcm'];
 		}
@@ -511,7 +511,7 @@ class Push {
         }
 
 	public function get_server_settings() {
-		$sql = "SELECT * FROM ".LOCAL_DB."`settings` WHERE `id` = '1'";
+		$sql = "SELECT * FROM ".LOCAL_DB.".`settings` WHERE `id` = '1'";
 		print "SQL: $sql<br>";
 		$result = $this->new_mysql($sql);
 		while ($row = $result->fetch_assoc()) {
@@ -695,7 +695,7 @@ class Push {
 		print "Test 2<br>";
 
 		// check for username
-		$sql = "SELECT `uuname` FROM .".LOCAL_DB."`sites` WHERE `uuname` = '$_POST[uuname]'";
+		$sql = "SELECT `uuname` FROM .".LOCAL_DB.".`sites` WHERE `uuname` = '$_POST[uuname]'";
 		$result = $this->new_mysql($sql);
 		while ($row = $result->fetch_assoc()) {
 			print "<br><font color=red>ERROR: USERNAME already taken. Please click back and select a different username.</font><br>";
