@@ -19,7 +19,7 @@ class Push {
 				die;
 			}
 		}
-		$sql = "SELECT * FROM LOCAL_DB.`sites` WHERE `sub` = '$server[0]'";
+		$sql = "SELECT * FROM ".LOCAL_DB.".`sites` WHERE `sub` = '$server[0]'";
 		$result = $this->new_mysql($sql);
 		while ($row = $result->fetch_assoc()) {
 
@@ -569,7 +569,7 @@ class Push {
 			<td><b>Password</b></td>
 			<td>&nbsp;</td>
 		</tr>";
-		$sql = "SELECT * FROM LOCAL_DB.`sites` ORDER BY `sub` ASC";
+		$sql = "SELECT * FROM ".LOCAL_DB.".`sites` ORDER BY `sub` ASC";
 		$result = $this->new_mysql($sql);
 		while ($row = $result->fetch_assoc()) {
 			$i++;
@@ -601,7 +601,7 @@ class Push {
                         print "<br><font color=red>ACCESS DENIED</font><br>";
                         die;
                 }
-		$sql = "SELECT * FROM LOCAL_DB.`sites` WHERE `id` = '$_GET[id]'";
+		$sql = "SELECT * FROM ".LOCAL_DB.".`sites` WHERE `id` = '$_GET[id]'";
 		$result = $this->new_mysql($sql);
 		while ($row = $result->fetch_assoc()) {
                 print "<h2>Edit Push Site:</h2>";
@@ -635,7 +635,7 @@ class Push {
                         die;
                 }
 
-		$sql = "DELETE FROM LOCAL_DB.`sites` WHERE `id` = '$_GET[id]'";
+		$sql = "DELETE FROM ".LOCAL_DB.".`sites` WHERE `id` = '$_GET[id]'";
 		$result = $this->new_mysql($sql);
 		if ($result == "TRUE") {
 			print "<br><font color=green>The site was deleted.</font><br>";
@@ -673,7 +673,7 @@ class Push {
                         move_uploaded_file("$tmpName2", "img/$fileName2");
 			$logo = ",`logo` = '$fileName2'";
 		}
-		$sql = "UPDATE LOCAL_DB.`sites` SET `app_id` = '$_POST[app_id]', `crypto` = '$_POST[crypto]', `uupass` = '$_POST[uupass]' $pem $logo WHERE `id` = '$_POST[id]'";
+		$sql = "UPDATE ".LOCAL_DB.".`sites` SET `app_id` = '$_POST[app_id]', `crypto` = '$_POST[crypto]', `uupass` = '$_POST[uupass]' $pem $logo WHERE `id` = '$_POST[id]'";
 		$result = $this->new_mysql($sql);
 		if ($result == "TRUE") {
 			print "<br><font color=green>The site was updated.</font><br>";
@@ -692,7 +692,7 @@ class Push {
 		$server_settings = $this->get_server_settings();
 
 		// check for username
-		$sql = "SELECT `uuname` FROM LOCAL_DB.`sites` WHERE `uuname` = '$_POST[uuname]'";
+		$sql = "SELECT `uuname` FROM .".LOCAL_DB."`sites` WHERE `uuname` = '$_POST[uuname]'";
 		$result = $this->new_mysql($sql);
 		while ($row = $result->fetch_assoc()) {
 			print "<br><font color=red>ERROR: USERNAME already taken. Please click back and select a different username.</font><br>";
@@ -700,7 +700,7 @@ class Push {
 		}
 
 		// check for sub
-                $sql = "SELECT `sub` FROM LOCAL_DB.`sites` WHERE `sub` = '$_POST[sub]'";
+                $sql = "SELECT `sub` FROM ".LOCAL_DB.".`sites` WHERE `sub` = '$_POST[sub]'";
                 $result = $this->new_mysql($sql);
                 while ($row = $result->fetch_assoc()) {
                         print "<br><font color=red>ERROR: SUB DOMAIN already taken. Please click back and select a different sub domain.</font><br>";
@@ -759,7 +759,7 @@ class Push {
                         move_uploaded_file("$tmpName", "$fileName");
                         move_uploaded_file("$tmpName2", "img/$fileName2");
 
-			$sql = "INSERT INTO LOCAL_DB.`sites` (`sub`,`pem`,`app_id`,`crypto`,`logo`,`uuname`,`uupass`) VALUES
+			$sql = "INSERT INTO ".LOCAL_DB.".`sites` (`sub`,`pem`,`app_id`,`crypto`,`logo`,`uuname`,`uupass`) VALUES
 			('$_POST[sub]','$fileName','$_POST[app_id]','$_POST[crypto]','$fileName2','$_POST[uuname]','$_POST[uupass]')";
 			$result = $this->new_mysql($sql);
 			if ($result == "TRUE") {
