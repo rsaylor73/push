@@ -578,15 +578,21 @@ class Push {
 			} else {
 				$bgcolor="#FFFFFF";
 			}
+
+			$sub = "";
+			if ($row['sub'] != "pushdev") {
+				$sub = "$row[sub]."''
+			}
+
 			print "<tr bgcolor=$bgcolor><td>$row[sub]</td>
-			<td><a href=\"http://$row[sub].".SUBPATH.".theappwizards.com\" target=_blank>$row[sub].".SUBPATH.".theappwizards.com</a></td>
+			<td><a href=\"http://$sub".SUBPATH.".theappwizards.com\" target=_blank>$row[sub].".SUBPATH.".theappwizards.com</a></td>
 			<td>$row[uuname]</td>
 			<td>$row[uupass]</td>
 			<td>
 			<input type=\"button\" class=\"btn btn-primary\" value=\"Edit\" onclick=\"document.location.href='index.php?action=edit&id=$row[id]'\">
 			&nbsp;
 			";
-			if ($row['sub'] != "framing") {
+			if ($row['sub'] != "admin") {
 				print "<input type=\"button\" class=\"btn btn-danger\" value=\"Delete\" onclick=\"if(confirm('WARNING: You are about to delete $row[sub]')){document.location.href='index.php?action=delete&id=$row[id]'};\">";
 			}
 			print "
