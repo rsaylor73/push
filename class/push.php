@@ -351,7 +351,7 @@ class Push {
 		}
 
 		$total = "0";
-		if(is_array($counter) {
+		if(is_array($counter)) {
 			foreach ($counter as $result) {
 				$total = $total + $result;
 			}
