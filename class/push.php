@@ -579,7 +579,7 @@ class Push {
 				$bgcolor="#FFFFFF";
 			}
 			print "<tr bgcolor=$bgcolor><td>$row[sub]</td>
-			<td><a href=\"http://$row[sub].push.theappwizards.com\" target=_blank>$row[sub].push.theappwizards.com</a></td>
+			<td><a href=\"http://$row[sub].".SUBPATH.".theappwizards.com\" target=_blank>$row[sub].".SUBPATH.".theappwizards.com</a></td>
 			<td>$row[uuname]</td>
 			<td>$row[uupass]</td>
 			<td>
