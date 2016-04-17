@@ -589,19 +589,16 @@ class Push {
 				$bgcolor="#FFFFFF";
 			}
 
-			$sub = "";
+			$sub = "$row[sub].";
 
-			switch ($row['sub']) {
-				case "pushdev":
-				case "push":
-				case "pushv2":
+			if ($row['sub'] == "pushdev") {
 				$sub = "";
-				break;
-
-				default:
-				$sub = $row['sub'];
-				$sub .= ".";
-				break;
+			}
+			if ($row['sub'] == "pushv2") {
+				$sub = "";
+			}
+			if ($row['sub'] == "push") {
+				$sub = "";
 			}
 
 			print "<tr bgcolor=$bgcolor><td>$row[sub]</td>
