@@ -351,8 +351,10 @@ class Push {
 		}
 
 		$total = "0";
-		foreach ($counter as $result) {
-			$total = $total + $result;
+		if(is_array($counter) {
+			foreach ($counter as $result) {
+				$total = $total + $result;
+			}
 		}
 		print "<br>The push notification was delivered to $total devices.<br>";
 
