@@ -591,18 +591,15 @@ class Push {
 
 			$sub = "$row[sub].";
 
-			if ($row['sub'] == "pushdev") {
-				$sub = "";
-			}
-			if ($row['sub'] == "pushv2") {
-				$sub = "";
-			}
-			if ($row['sub'] == "push") {
-				$sub = "";
+			print "<tr bgcolor=$bgcolor><td>$row[sub]</td>";
+
+			if ($row['uuname'] == "admin") {
+				print "<td>N/A</td>";
+			} else {
+				print "<td><a href=\"http://$sub".SUBPATH.".theappwizards.com/push/\" target=_blank>$row[sub].".SUBPATH.".theappwizards.com/push/</a></td>";
 			}
 
-			print "<tr bgcolor=$bgcolor><td>$row[sub]</td>
-			<td><a href=\"http://$sub".SUBPATH.".theappwizards.com/push/\" target=_blank>$row[sub].".SUBPATH.".theappwizards.com/push/</a></td>
+			print "
 			<td>$row[uuname]</td>
 			<td>$row[uupass]</td>
 			<td>
