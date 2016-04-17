@@ -581,7 +581,7 @@ class Push {
 
 			$sub = "";
 			if ($row['sub'] != "pushdev") {
-				$sub = "$row[sub]."''
+				$sub = "$row[sub].";
 			}
 
 			print "<tr bgcolor=$bgcolor><td>$row[sub]</td>
