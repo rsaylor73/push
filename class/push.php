@@ -13,12 +13,14 @@ class Push {
 
 	public function get_settings() {
 		$server = explode(".",$_SERVER['HTTP_HOST']);
+		/*
 		if ($server[0] == "push") {
 			if ($_SERVER['REQUEST_URI'] != "/home.php") {
 				print "<br><font color=red>URL CALL ERROR</font><br>";
 				die;
 			}
 		}
+		*/
 		$sql = "SELECT * FROM ".LOCAL_DB.".`sites` WHERE `sub` = '$server[0]'";
 		$result = $this->new_mysql($sql);
 		while ($row = $result->fetch_assoc()) {
