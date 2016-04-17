@@ -692,7 +692,7 @@ class Push {
 		$server_settings = $this->get_server_settings();
 
 		// check for username
-		$sql = "SELECT `uuname` FROM .".LOCAL_DB.".`sites` WHERE `uuname` = '$_POST[uuname]'";
+		$sql = "SELECT `uuname` FROM ".LOCAL_DB.".`sites` WHERE `uuname` = '$_POST[uuname]'";
 		$result = $this->new_mysql($sql);
 		while ($row = $result->fetch_assoc()) {
 			print "<br><font color=red>ERROR: USERNAME already taken. Please click back and select a different username.</font><br>";
@@ -761,7 +761,6 @@ class Push {
 
 			$sql = "INSERT INTO ".LOCAL_DB.".`sites` (`sub`,`pem`,`app_id`,`crypto`,`logo`,`uuname`,`uupass`) VALUES
 			('$_POST[sub]','$fileName','$_POST[app_id]','$_POST[crypto]','$fileName2','$_POST[uuname]','$_POST[uupass]')";
-			print "SQL: $sql<br>";
 			$result = $this->new_mysql($sql);
 			if ($result == "TRUE") {
 				print "<font color=blue>Config was updated.</font><br>";
