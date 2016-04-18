@@ -442,13 +442,14 @@ class Push {
 		curl_setopt( $ch,CURLOPT_POSTFIELDS, json_encode( $fields ) );
 		$result = curl_exec($ch );
 		curl_close( $ch );
-		var_dump(json_decode($result));
 
-
+		//var_dump(json_decode($result));
+		/*
 		print "Debug View:<br>
 		<pre>";
 		print_r($var_dump);
-		print "<pre>";
+		print "</pre>";
+		*/
 
 		$obj = json_decode($result);
 		$success = $obj->{'success'};
