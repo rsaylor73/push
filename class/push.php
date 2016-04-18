@@ -59,10 +59,10 @@ class Push {
 		}
 
 		$sql = "SELECT * FROM ".LOCAL_DB.".`settings` WHERE `id` = '1'";
+		$result = $this->new_mysql($sql);
 		while ($row = $result->fetch_assoc()) {
 			$api_gcm = $row['api_gcm'];
 		}
-
 		$data[] = $uuname;
 		$data[] = $uupass;
 		$data[] = $pem;
@@ -438,11 +438,18 @@ class Push {
 		curl_setopt( $ch,CURLOPT_HTTPHEADER, $headers );
 		curl_setopt( $ch,CURLOPT_RETURNTRANSFER, true );
 		curl_setopt( $ch,CURLOPT_SSL_VERIFYPEER, false );
+		curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4 );
 		curl_setopt( $ch,CURLOPT_POSTFIELDS, json_encode( $fields ) );
 		$result = curl_exec($ch );
 		curl_close( $ch );
-		//var_dump(json_decode($result));
-		//print "Test $result<br>";
+		var_dump(json_decode($result));
+
+
+		print "Debug View:<br>
+		<pre>";
+		print_r($var_dump);
+		print "<pre>";
+
 		$obj = json_decode($result);
 		$success = $obj->{'success'};
 		$failure = $obj->{'failure'};
