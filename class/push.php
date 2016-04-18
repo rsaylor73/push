@@ -151,7 +151,7 @@ class Push {
                         die;
                 }
 
-		$sql = "SELECT * FROM `siberian_appwizard2`.`template_block` WHERE `block_id` = '$id'";
+		$sql = "SELECT * FROM ".APP_DB.".`template_block` WHERE `block_id` = '$id'";
 		$result = $this->new_mysql($sql);
 		while ($row = $result->fetch_assoc()) {
 			print "<h2>$row[name]</h2>
@@ -191,7 +191,7 @@ class Push {
 				break;
 			}
 		}
-		$sql = "UPDATE `siberian_appwizard2`.`template_block` SET
+		$sql = "UPDATE ".APP_DB.".`template_block` SET
 		`color` = '$_POST[color]',
 		`background_color` = '$_POST[background_color]',
 		`color_on_hover` = '$_POST[color_on_hover]',
