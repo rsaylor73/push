@@ -33,10 +33,11 @@ class Reports {
 		}
 		return $name;
 	}
-/*
+
 	private function consumers() {
 		$DB = $this->get_proper_db('1');
 		
+		/*
 		$sql = "
 		SELECT
 			`c`.`firstname`,
@@ -58,6 +59,7 @@ class Reports {
 		ORDER BY `a`.`name` ASC
 
 		";
+		*/
 		print "<table class=\"table\">";
 		$result = $this->new_mysql($sql);
 		while ($row = $result->fetch_assoc()) {
@@ -65,7 +67,7 @@ class Reports {
 		}
 		print "</table>";
 	}
-*/
+
 
 }
 ?>
