@@ -49,7 +49,7 @@ class Reports {
 
 
 		FROM
-			".$DB".`customer` c, ".$DB.".`application` a
+			".$DB.".`customer` c, ".$DB.".`application` a
 
 
 		WHERE
