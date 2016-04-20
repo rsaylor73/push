@@ -19,7 +19,7 @@ class Reports {
 		}
 	}
 
-/*
+
 
 	private function get_proper_db($db) {
 		switch ($db) {
@@ -33,7 +33,7 @@ class Reports {
 		}
 		return $name;
 	}
-
+/*
 	private function consumers() {
 		$DB = $this->get_proper_db('1');
 		
