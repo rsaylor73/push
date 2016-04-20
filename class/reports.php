@@ -37,7 +37,6 @@ class Reports {
 	private function consumers() {
 		$DB = $this->get_proper_db('1');
 		
-		/*
 		$sql = "
 		SELECT
 			`c`.`firstname`,
@@ -50,7 +49,7 @@ class Reports {
 
 
 		FROM
-			`".$DB"`.`customer` c, `".$DB."`.`application` a
+			".$DB".`customer` c, ".$DB.".`application` a
 
 
 		WHERE
@@ -59,7 +58,7 @@ class Reports {
 		ORDER BY `a`.`name` ASC
 
 		";
-		*/
+
 		print "<table class=\"table\">";
 		$result = $this->new_mysql($sql);
 		while ($row = $result->fetch_assoc()) {
