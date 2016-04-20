@@ -62,5 +62,9 @@ if ($_POST['action'] == "update_block") {
 	$push->update_block();
 }
 
+if ($_GET['action'] == "reports") {
+	$reports->module($_GET['type']);
+}
+
 include "templates/footer.phtml";
 ?>
