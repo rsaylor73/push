@@ -19,6 +19,8 @@ class Reports {
 		}
 	}
 
+/*
+
 	private function get_proper_db($db) {
 		switch ($db) {
 			case "1":
@@ -63,7 +65,7 @@ class Reports {
 		}
 		print "</table>";
 	}
-
+*/
 
 }
 ?>

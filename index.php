@@ -62,6 +62,8 @@ if ($_POST['action'] == "update_block") {
 	$push->update_block();
 }
 
+/* ------- Reports ------------ */
+
 if ($_GET['action'] == "reports") {
 	$reports->module($_GET['type']);
 }
