@@ -35,7 +35,7 @@ class Reports {
 	}
 
 	private function consumers() {
-		$DB = $this->get_proper_db('1');
+		$DB = $this->get_proper_db('1'); // update TBD
 		
 		$sql = "
 		SELECT
@@ -67,6 +67,55 @@ class Reports {
 		}
 		print "</table>";
 	}
+
+	private function loyalty_stamps() {
+		$DB = $this->get_proper_db('1');
+
+		$sql = "
+		SELECT
+			`a`.`name` AS 'app_name',
+			`lcp`.`name` AS 'employee',
+			`lc`.`number_of_points`,
+			`c`.`firstname`,
+			`c`.`lastname`,
+			`c`.`email`
+
+
+
+		FROM
+			".$DB.".`loyalty_card` lc,
+			".$DB.".`loyalty_card_customer_log` lccl,
+			".$DB.".`loyalty_card_password` lcp,
+			".$DB.".`application` a,
+			".$DB.".`customer` c
+
+		WHERE
+			`lc`.`card_id` = `lccl`.`card_id`
+			AND `lccl`.`password_id` = `lcp`.`password_id`
+			AND `lcp`.`app_id` = `a`.`app_id`,
+			AND `lccl`.`customer_id` = `c`.`customer_id`
+
+		";
+
+		print "<pre>$sql</pre>";
+
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }
