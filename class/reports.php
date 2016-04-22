@@ -62,7 +62,7 @@ class Reports {
 		ORDER BY `a`.`name` ASC
 
 		";
-
+		print "<h3>Customer</h3>";
 		print "<table class=\"table\">";
 		print "<tr><td><b>Registration</b></td><td><b>First Name</b></td><td><b>Last Name</b></td><td><b>Civility</b></td><td><b>E-mail</b></td><td><b>Application</b></td></tr>";
 		$result = $this->new_mysql($sql);
@@ -99,11 +99,17 @@ class Reports {
 			AND `lcp`.`app_id` = `a`.`app_id`
 			AND `lccl`.`customer_id` = `c`.`customer_id`
 
-		GROUP BY `customer_id`
+		GROUP BY `lccl`.`customer_id`
 		";
 
-		print "<pre>$sql</pre>";
-
+		print "<h3>Loyalty Stamps</h3>";
+		print "<table class=\"table\">";
+		print "<tr><td>Application</td><td>Employee</td><td>Points</td><td>First Name</td><td>Last Name</td><td>Email</td></tr>";
+		$result = $this->new_mysql($sql);
+		while ($row = $result->fetch_assoc()) {
+			print "<tr><td>$row[app_name]</td><td>$row[employee]</td><td>$row[number_of_points]</td><td>$row[firstname]</td><td>$row[lastname]</td><td>$row[email]</td></tr>";
+		}
+		print "</table>";
 	}
 
 
