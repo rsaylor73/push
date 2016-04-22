@@ -1,6 +1,7 @@
 <?php
 
 include "settings.php";
+$settings = $push->get_settings();
 include "templates/header.phtml";
 include "templates/nav.phtml";
 $check_login = $push->check_login();
