@@ -16,6 +16,10 @@ class Reports {
 			case "consumers":
 				$this->consumers();
 			break;
+
+			case "loyalty_stamps":
+				$this->loyalty_stamps();
+			break;
 		}
 	}
 
