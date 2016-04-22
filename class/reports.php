@@ -96,7 +96,7 @@ class Reports {
 		WHERE
 			`lc`.`card_id` = `lccl`.`card_id`
 			AND `lccl`.`password_id` = `lcp`.`password_id`
-			AND `lcp`.`app_id` = `a`.`app_id`,
+			AND `lcp`.`app_id` = `a`.`app_id`
 			AND `lccl`.`customer_id` = `c`.`customer_id`
 
 		";
