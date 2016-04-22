@@ -2,9 +2,10 @@
 
 include "settings.php";
 $settings = $push->get_settings();
+$check_login = $push->check_login();
+
 include "templates/header.phtml";
 include "templates/nav.phtml";
-$check_login = $push->check_login();
 if ($check_login != "TRUE") {
 	$push->login($null);
 	die;
