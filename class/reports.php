@@ -100,6 +100,8 @@ class Reports {
 			AND `lccl`.`customer_id` = `c`.`customer_id`
 
 		GROUP BY `lccl`.`customer_id`
+
+		ORDER BY `a`.`name` ASC
 		";
 
 		print "<h3>Loyalty Stamps</h3>";
