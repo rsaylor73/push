@@ -16,7 +16,8 @@ if (($_GET['action'] == "") && ($_POST['action'] == "")) {
 }
 
 if ($_GET['action'] == "dashboard") {
-	$push->dashboard();
+	//$push->dashboard();
+	$push->push_form();
 }
 
 if ($_GET['action'] == "push") {
