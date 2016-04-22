@@ -99,6 +99,7 @@ class Reports {
 			AND `lcp`.`app_id` = `a`.`app_id`
 			AND `lccl`.`customer_id` = `c`.`customer_id`
 
+		GROUP BY `customer_id`
 		";
 
 		print "<pre>$sql</pre>";
