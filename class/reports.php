@@ -24,6 +24,10 @@ class Reports {
 			case "loyalty_awards":
 				$this->loyalty_awards();
 			break;
+
+			case "coupon":
+				$this->coupon();
+			break;
 		}
 	}
 
@@ -169,29 +173,40 @@ class Reports {
 
 	private function coupon() {
 
-
+		$DB = $this->get_proper_db('1');
 
 		$sql = "
 		SELECT
+			MAX(`pc`.`created_at`) AS 'used',
 			`p`.`title`,
+			`p`.`description`,
 			`p`.`conditions`,
 			`c`.`firstname`,
 			`c`.`lastname`,
 			`c`.`email`,
 			`a`.`name`
 
-
 		FROM
-			`promotion` p,
-			`promotion_customer` pc,
-			`customer` c,
-			`application` a
+			".$DB.".`promotion` p,
+			".$DB.".`promotion_customer` pc,
+			".$DB.".`customer` c,
+			".$DB.".`application` a
 
 		WHERE
 			`p`.`promotion_id` = `pc`.`promotion_id`
 			AND `pc`.`customer_id` = `c`.`customer_id`
 			AND `c`.`app_id` = `a`.`app_id`
+
+		GROUP BY `pc`.`customer_id`
 		";
+
+		print "<table class=\"table\">
+		<tr><td>Used</td><td>Coupon Name</td><td>Description</td><td>Firstname</td><td>Lastname</td><td>E-mail</td><td>Application</td></tr>";
+		$result = $this->new_mysql($sql);
+		while ($row = $result->fetch_assoc()) {
+			print "<tr><td>$row[used]</td><td>$row[title]</td><td>$row[description]</td><td>$row[firstname]</td><td>$row[lastname]</td><td>$row[email]</td><td>$row[name]</td></tr>";
+		}
+		print "</table>";
 	}
 
 
