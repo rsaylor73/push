@@ -153,14 +153,13 @@ class Reports {
 
 		ORDER BY `a`.`name` ASC
 		";
-		print "$sql<br>";
 
 		print "<h3>Loyalty Awards</h3>";
 		print "<table class=\"table\">
 		<tr><td>Last Used</td><td>Points</td><td>Firstname</td><td>Lastname</td><td>E-mail</td><td>Application</td><td>Card Name</td><td>Employee</td></tr>";
 
 		$result = $this->new_mysql($sql);
-		while ($row = $this->new_mysql($sql)) {
+		while ($row = $result->fetch_assoc()) {
 			print "<tr><td>$row[created_at]</td><td>$row[points]</td><td>$row[firstname]</td><td>$row[lastname]</td><td>$row[email]</td>
 			<td>$row[name]</td><td>$row[card_name]</td><td>$row[empty]</td></tr>";
 		}
