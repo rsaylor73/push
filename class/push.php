@@ -64,11 +64,30 @@ class Push {
 			}
 		}
 
+		/*
 		$sql = "SELECT * FROM ".LOCAL_DB.".`settings` WHERE `id` = '1'";
 		$result = $this->new_mysql($sql);
 		while ($row = $result->fetch_assoc()) {
 			$api_gcm = $row['api_gcm'];
 		}
+		*/
+
+		$sql = "
+		SELECT
+			`pc`.`path` AS 'api_gcm'
+
+		FROM
+			".$_SESSION['database'].".`push_certificate` pc
+
+		WHERE
+			`pc`.`type` = 'android_key'
+		";
+
+		$result = $this->new_mysql($sql);
+		while ($row = $result->fetch_assoc()) {
+			$api_gcm = $row['api_gcm'];
+		}
+
 		$data[] = $uuname;
 		$data[] = $uupass;
 		$data[] = $pem;
