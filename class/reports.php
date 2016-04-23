@@ -167,6 +167,32 @@ class Reports {
 	}
 
 
+	private function coupon() {
+
+
+
+		$sql = "
+		SELECT
+			`p`.`title`,
+			`p`.`conditions`,
+			`c`.`firstname`,
+			`c`.`lastname`,
+			`c`.`email`,
+			`a`.`name`
+
+
+		FROM
+			`promotion` p,
+			`promotion_customer` pc,
+			`customer` c,
+			`application` a
+
+		WHERE
+			`p`.`promotion_id` = `pc`.`promotion_id`
+			AND `pc`.`customer_id` = `c`.`customer_id`
+			AND `c`.`app_id` = `a`.`app_id`
+		";
+	}
 
 
 
