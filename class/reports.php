@@ -161,7 +161,7 @@ class Reports {
 		$result = $this->new_mysql($sql);
 		while ($row = $result->fetch_assoc()) {
 			print "<tr><td>$row[created_at]</td><td>$row[points]</td><td>$row[firstname]</td><td>$row[lastname]</td><td>$row[email]</td>
-			<td>$row[name]</td><td>$row[card_name]</td><td>$row[empty]</td></tr>";
+			<td>$row[name]</td><td>$row[card_name]</td><td>$row[employee]</td></tr>";
 		}
 		print "</table>";
 	}
