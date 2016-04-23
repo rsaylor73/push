@@ -116,6 +116,52 @@ class Reports {
 		print "</table>";
 	}
 
+	private function loyalty_awards() {
+		$DB = $this->get_proper_db('1');
+
+		$sql = "
+		SELECT
+			MAX(`lccl`.`created_at`),
+			`lccl`.`customer_id`,
+			`c`.`firstname`,
+			`c`.`lastname`,
+			`c`.`email`,
+			`a`.`name`,
+			`lcp`.`name` AS 'employee',
+			SUM(`lccl`.`number_of_points`) AS 'points',
+			`lc`.`name` AS 'card_name'
+
+
+		FROM
+			".$DB."`loyalty_card_customer_log` lccl,
+			".$DB."`loyalty_card` lc,
+			".$DB."`customer` c,
+			".$DB."`application` a,
+			".$DB."`loyalty_card_password` lcp
+
+		WHERE
+			`lccl`.`card_id` = `lc`.`card_id`
+			AND `lccl`.`customer_id` = `c`.`customer_id`
+			AND `c`.`app_id` = `a`.`app_id`
+			AND `lccl`.`password_id` = `lcp`.`password_id`
+
+		GROUP BY `lccl`.`customer_id`
+
+		ORDER BY `a`.`name` ASC
+		";
+
+		print "<h3>Loyalty Awards</h3>";
+		print "<table class="table">
+		<tr><td>Last Used</td><td>Points</td><td>Firstname</td><td>Lastname</td><td>E-mail</td><td>Application</td><td>Card Name</td><td>Employee</td></tr>";
+
+		$result = $this->new_mysql($sql);
+		while ($row = $this->new_mysql($sql)) {
+			print "<tr><td>$row[created_at]</td><td>$row[points]</td><td>$row[firstname]</td><td>$row[lastname]</td><td>$row[email]</td>
+			<td>$row[name]</td><td>$row[card_name]</td><td>$row[empty]</td></tr>";
+		}
+		print "</table>";
+	}
+
 
 
 
