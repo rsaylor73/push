@@ -32,6 +32,10 @@ class Reports {
 			case "ecommerce":
 				$this->ecommerce();
 			break;
+
+			case "log":
+				$this->log();
+			break;
 		}
 	}
 
@@ -258,7 +262,61 @@ class Reports {
 	}
 
 
+	private function log() {
+		$DB = $this->get_proper_db('1');
 
+		$sql = "
+		SELECT
+			`a`.`name` AS 'app_name',
+			`l`.`remote_addr`,
+			`l`.`visited_at`,
+			`l`.`customer_id`,
+			`l`.`device_name`
+
+		FROM
+			".$DB.".`log` l,
+			".$DB.".`application` a
+
+
+		WHERE
+			`l`.`app_id` = `a`.`app_id`
+
+		ORDER BY `a`.`name` ASC, `l`.`visited_at` DESC
+
+		";
+
+		print "<table class=\"table\">
+		<tr><td>Visited</td><td>IP</td><td>Application</td><td>Device</td><td>Firstname</td><td>Lastname</td><td>E-mail</td></tr>";
+		$result = $this->new_mysql($sql);
+		while ($row = $result->fetch_assoc()) {
+			if ($row['customer_id'] != "") {
+				$sql2 = "
+				SELECT
+					`c`.`firstname`,
+					`c`.`lastname`,
+					`c`.`email`
+
+				FROM
+					`customer` c
+
+				WHERE
+					`c`.`customer_id` = '$row[customer_id]'
+				";
+				$firstname = "";
+				$lastname = "";
+				$email = "";
+
+				$result2 = $this->new_mysql($sql2);
+				while ($row2 = $result2->fetch_assoc()) {
+					$firstname = $row2['firstname'];
+					$lastname = $row2['lastname'];
+					$email = $row2['email'];
+				}
+			}
+			print "<tr><td>$row[visited_at]</td><td>$row[remote_addr]</td><td>$row[app_name]</td><td>$row[device_name]</td><td>$firstname</td><td>$lastname</td><td>$email</td></tr>";
+		}
+		print "</table>";
+	}
 
 
 
