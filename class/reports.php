@@ -56,7 +56,7 @@ class Reports {
 		$DB = $this->get_proper_db('1'); // update TBD
 		
 		if ($_SESSION['app_id'] != "") {
-			$app_id = "AND `c`.`app_id` = '$_SESSION[app_id]'";
+			$app_id = "AND `a`.`app_id` = '$_SESSION[app_id]'";
 		}
 
 		$sql = "
@@ -94,6 +94,10 @@ class Reports {
 	private function loyalty_stamps() {
 		$DB = $this->get_proper_db('1');
 
+		if ($_SESSION['app_id'] != "") {
+			$app_id = "AND `a`.`app_id` = '$_SESSION[app_id]'";
+		}
+
 		$sql = "
 		SELECT
 			`a`.`name` AS 'app_name',
@@ -118,6 +122,7 @@ class Reports {
 			`lc`.`card_id` = `lccl`.`card_id`
 			AND `lccl`.`password_id` = `lcp`.`password_id`
 			AND `lcp`.`app_id` = `a`.`app_id`
+			$app_id
 			AND `lccl`.`customer_id` = `c`.`customer_id`
 
 		GROUP BY `lccl`.`customer_id`
@@ -137,6 +142,10 @@ class Reports {
 
 	private function loyalty_awards() {
 		$DB = $this->get_proper_db('1');
+
+		if ($_SESSION['app_id'] != "") {
+			$app_id = "AND `a`.`app_id` = '$_SESSION[app_id]'";
+		}
 
 		$sql = "
 		SELECT
@@ -162,6 +171,7 @@ class Reports {
 			`lccl`.`card_id` = `lc`.`card_id`
 			AND `lccl`.`customer_id` = `c`.`customer_id`
 			AND `c`.`app_id` = `a`.`app_id`
+			$app_id
 			AND `lccl`.`password_id` = `lcp`.`password_id`
 
 		GROUP BY `lccl`.`customer_id`
@@ -186,6 +196,10 @@ class Reports {
 
 		$DB = $this->get_proper_db('1');
 
+		if ($_SESSION['app_id'] != "") {
+			$app_id = "AND `a`.`app_id` = '$_SESSION[app_id]'";
+		}
+
 		$sql = "
 		SELECT
 			MAX(`pc`.`created_at`) AS 'used',
@@ -207,6 +221,7 @@ class Reports {
 			`p`.`promotion_id` = `pc`.`promotion_id`
 			AND `pc`.`customer_id` = `c`.`customer_id`
 			AND `c`.`app_id` = `a`.`app_id`
+			$app_id
 
 		GROUP BY `pc`.`customer_id`
 		";
@@ -223,6 +238,10 @@ class Reports {
 
 	private function ecommerce() {
 		$DB = $this->get_proper_db('1');
+
+		if ($_SESSION['app_id'] != "") {
+			$app_id = "AND `a`.`app_id` = '$_SESSION[app_id]'";
+		}
 
 		$sql = "
 		SELECT
@@ -249,6 +268,7 @@ class Reports {
 			AND `ms`.`mcommerce_id` = `m`.`mcommerce_id`
 			AND `m`.`value_id` = `aov`.`value_id`
 			AND `aov`.`app_id` = `a`.`app_id`
+			$app_id
 
 		ORDER BY `a`.`name` ASC, `mo`.`created_at` DESC
 		";
@@ -268,6 +288,10 @@ class Reports {
 	private function log() {
 		$DB = $this->get_proper_db('1');
 
+		if ($_SESSION['app_id'] != "") {
+			$app_id = "AND `a`.`app_id` = '$_SESSION[app_id]'";
+		}
+
 		$sql = "
 		SELECT
 			`a`.`name` AS 'app_name',
@@ -283,6 +307,7 @@ class Reports {
 
 		WHERE
 			`l`.`app_id` = `a`.`app_id`
+			$app_id
 
 		ORDER BY `a`.`name` ASC, `l`.`visited_at` DESC
 
