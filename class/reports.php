@@ -20,6 +20,10 @@ class Reports {
 			case "loyalty_stamps":
 				$this->loyalty_stamps();
 			break;
+
+			case "loyalty_awards":
+				$this->loyalty_awards();
+			break;
 		}
 	}
 
@@ -151,7 +155,7 @@ class Reports {
 		";
 
 		print "<h3>Loyalty Awards</h3>";
-		print "<table class="table">
+		print "<table class=\"table\">
 		<tr><td>Last Used</td><td>Points</td><td>Firstname</td><td>Lastname</td><td>E-mail</td><td>Application</td><td>Card Name</td><td>Employee</td></tr>";
 
 		$result = $this->new_mysql($sql);
