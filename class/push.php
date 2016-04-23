@@ -587,6 +587,7 @@ class Push {
 			<td><b>Site</b></td>
 			<td><b>URL</b></td>
 			<td><b>Reports</b></td>
+			<td><b>Database</b></td>
 			<td><b>Username</b></td>
 			<td><b>Password</b></td>
 			<td>&nbsp;</td>
@@ -611,8 +612,19 @@ class Push {
 				print "<td><a href=\"http://$sub".SUBPATH.".theappwizards.com/push/\" target=_blank>$row[sub].".SUBPATH.".theappwizards.com/push/</a></td>";
 			}
 
+			switch ($row['database']) {
+				case "siberian_appwizard2":
+				$d = "Version 1";
+				break;
+
+				case "wwsib2_siberian":
+				$d = "Version 2";
+				break;
+			}
+
 			print "
 			<td>$row[reports]</td>
+			<td>$d</td>
 			<td>$row[uuname]</td>
 			<td>$row[uupass]</td>
 			<td>
