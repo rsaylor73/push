@@ -153,6 +153,7 @@ class Reports {
 
 		ORDER BY `a`.`name` ASC
 		";
+		print "$sql<br>";
 
 		print "<h3>Loyalty Awards</h3>";
 		print "<table class=\"table\">
