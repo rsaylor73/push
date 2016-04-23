@@ -586,6 +586,7 @@ class Push {
 		<tr>
 			<td><b>Site</b></td>
 			<td><b>URL</b></td>
+			<td><b>Reports</b></td>
 			<td><b>Username</b></td>
 			<td><b>Password</b></td>
 			<td>&nbsp;</td>
@@ -611,6 +612,7 @@ class Push {
 			}
 
 			print "
+			<td>$row[reports]</td>
 			<td>$row[uuname]</td>
 			<td>$row[uupass]</td>
 			<td>
