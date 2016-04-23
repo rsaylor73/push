@@ -243,7 +243,7 @@ class Reports {
 			AND `m`.`value_id` = `aov`.`value_id`
 			AND `aov`.`app_id` = `a`.`app_id`
 
-		ORDER BY `a`.`name` ASC, `mo`.`created_at` ASC
+		ORDER BY `a`.`name` ASC, `mo`.`created_at` DESC
 		";
 
 		print "<table class=\"table\">
