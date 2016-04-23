@@ -566,7 +566,7 @@ class Push {
 		<tr><td>Logo</td><td><input type=\"file\" name=\"logo\" required></td></tr>
 		<tr><td>Username (unique):</td><td><input type=\"text\" name=\"uuname\" size=40 required></td></tr>
 		<tr><td>Password:</td><td><input type=\"text\" name=\"uupass\" size=40 required></td></tr>
-		<tr><td>Siberian Database:</td><td><option value=\"siberian_appwizard2\">Version 1</option><option value=\"wwsib2_siberian\">Version 2</option>
+		<tr><td>Siberian Database:</td><td><select name=\"database\"><option value=\"siberian_appwizard2\">Version 1</option><option value=\"wwsib2_siberian\">Version 2</option>
         </select></td></tr>
         <tr><td>Reports:</td><td><select name=\"reports\"><option selected>$row[reports]</option><option>No</option><option>Yes</option></select></td></tr>
 		<tr><td colspan=2><input type=\"submit\" class=\"btn btn-primary\" value=\"Add User\"><br><font color=blue><b>NOTE: Please wait after clicking the button above. We are actually talking to cPanel to create the sub sub domain. This could take a few minutes for the API to get a return value.</font></b></td></tr>
@@ -650,7 +650,7 @@ class Push {
 		<tr><td colspan=2><font color=blue>The logo is required only if you are updating the logo.</font></td></tr>
                 <tr><td>Username (unique):</td><td>$row[uuname]</td></tr>
                 <tr><td>Password:</td><td><input type=\"text\" name=\"uupass\" value=\"$row[uupass]\" size=40 required></td></tr>
-                <tr><td>Siberian Database:</td><td><option selected>$row[database]</option>
+                <tr><td>Siberian Database:</td><td><select name=\"database\"><option selected>$row[database]</option>
                 	<option value=\"siberian_appwizard2\">Version 1</option>
                 	<option value=\"wwsib2_siberian\">Version 2</option>
                 </select></td></tr>
@@ -709,7 +709,8 @@ class Push {
                         move_uploaded_file("$tmpName2", "img/$fileName2");
 			$logo = ",`logo` = '$fileName2'";
 		}
-		$sql = "UPDATE ".LOCAL_DB.".`sites` SET `app_id` = '$_POST[app_id]', `crypto` = '$_POST[crypto]', `uupass` = '$_POST[uupass]' $pem $logo WHERE `id` = '$_POST[id]'";
+		$sql = "UPDATE ".LOCAL_DB.".`sites` SET `app_id` = '$_POST[app_id]', `crypto` = '$_POST[crypto]', `uupass` = '$_POST[uupass]',`database` = '$_POST[database]',
+		`reports` = '$_POST[reports]' $pem $logo WHERE `id` = '$_POST[id]'";
 		$result = $this->new_mysql($sql);
 		if ($result == "TRUE") {
 			print "<br><font color=green>The site was updated.</font><br>";
@@ -795,8 +796,8 @@ class Push {
                         move_uploaded_file("$tmpName", "$fileName");
                         move_uploaded_file("$tmpName2", "img/$fileName2");
 
-			$sql = "INSERT INTO ".LOCAL_DB.".`sites` (`sub`,`pem`,`app_id`,`crypto`,`logo`,`uuname`,`uupass`) VALUES
-			('$_POST[sub]','$fileName','$_POST[app_id]','$_POST[crypto]','$fileName2','$_POST[uuname]','$_POST[uupass]')";
+			$sql = "INSERT INTO ".LOCAL_DB.".`sites` (`sub`,`pem`,`app_id`,`crypto`,`logo`,`uuname`,`uupass`,`database`,`reports`) VALUES
+			('$_POST[sub]','$fileName','$_POST[app_id]','$_POST[crypto]','$fileName2','$_POST[uuname]','$_POST[uupass]','$_POST[database]','$_POST[reports]')";
 			$result = $this->new_mysql($sql);
 			if ($result == "TRUE") {
 				print "<font color=blue>Config was updated.</font><br>";
