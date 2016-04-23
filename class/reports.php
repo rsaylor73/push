@@ -28,6 +28,10 @@ class Reports {
 			case "coupon":
 				$this->coupon();
 			break;
+
+			case "ecommerce":
+				$this->ecommerce();
+			break;
 		}
 	}
 
@@ -210,7 +214,48 @@ class Reports {
 	}
 
 
+	private function ecommerce() {
+		$DB = $this->get_proper_db('1');
 
+		$sql = "
+		SELECT
+			`a`.`name` AS 'app_name',
+			`mo`.`number`,
+			`mo`.`payment_method`,
+			`mo`.`delivery_method`,
+			`mo`.`customer_firstname`,
+			`mo`.`customer_lastname`,
+			`mo`.`customer_email`,
+			`mo`.`customer_phone`,
+			`mo`.`total`,
+			`mo`.`created_at`
+
+		FROM
+			`mcommerce_order` mo,
+			`mcommerce` m,
+			`mcommerce_store` ms,
+			`application_option_value` aov,
+			`application` a
+
+		WHERE
+			`mo`.`store_id` = `ms`.`store_id`
+			AND `ms`.`mcommerce_id` = `m`.`mcommerce_id`
+			AND `m`.`value_id` = `aov`.`value_id`
+			AND `aov`.`app_id` = `a`.`app_id`
+
+		ORDER BY `a`.`name` ASC
+		";
+
+		print "<table class=\"table\">
+		<tr><td>Date</td><td>Number</td><td>Payment Method</td><td>Delivery Method</td><td>Firstname</td><td>Lastname</td><td>Phone</td><td>Total</td><td>Application</td></tr>";
+
+		$result = $this->new_mysql($sql);
+		while ($row = $result->fetch_assoc()) {
+			print "<tr><td>$row[created_at]</td><td>$row[number]</td><td>$row[payment_method]</td><td>$row[delivery_method]</td><td>$row[customer_firstname]</td><td>$row[customer_lastname]</td>
+			<td>$row[total]</td><td>$row[app_name]</td></tr>";
+		}
+		print "</table>";
+	}
 
 
 
