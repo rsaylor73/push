@@ -32,6 +32,7 @@ class Push {
 			$uupass = $row ['uupass'];
 			$_SESSION['database'] = $row['database'];
 			$_SESSION['reports'] = $row['reports'];
+			$_SESSION['app_id'] = $id;
 
 
 			switch ($server[0]) {

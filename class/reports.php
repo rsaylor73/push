@@ -42,15 +42,13 @@ class Reports {
 
 
 	private function get_proper_db($db) {
-		switch ($db) {
-			case "1":
-			$name = DB1;
-			break;
-
-			case "2":
-			$name = DB2;
-			break;
+		if ($_SESSION['database'] == DB1) {
+			$name = $_SESSION['database'];
 		}
+		if ($_SESSION['database'] == DB2) {
+			$name = $_SESSION['database'];
+		}
+
 		return $name;
 	}
 

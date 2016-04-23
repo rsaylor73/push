@@ -73,21 +73,15 @@ if ($check_login == "TRUE") {
             if (($_SESSION['reports'] == "Yes") && ($settings[9] != "Yes")) {
               print '
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Templates <span class="caret"></span></a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Analytics <span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="index.php?action=get_template_block&id=10">General Template</a></li>
-                <li><a href="index.php?action=get_template_block&id=11">Header Template</a></li>
-                <li><a href="index.php?action=get_template_block&id=12">App Name Template</a></li>
-                <li><a href="index.php?action=get_template_block&id=13">Page Template</a></li>
-                <li><a href="index.php?action=get_template_block&id=14">Menu Template</a></li>
-                <li><a href="index.php?action=get_template_block&id=15">Area Template</a></li>
-                <li><a href="index.php?action=get_template_block&id=16">Buttons Template</a></li>
-                <li><a href="index.php?action=get_template_block&id=17">Delete/Cancel Template</a></li>
-                <li><a href="index.php?action=get_template_block&id=18">Drop Down Template</a></li>
-
-                <!--<li role="separator" class="divider"></li>
-                <li class="dropdown-header">Nav header</li>-->
-              </ul>
+              <li><a href="index.php?action=reports&type=consumers">Consumer</a></li>
+              <li><a href="index.php?action=reports&type=loyalty_stamps">Loyalty Stamps</a></li>
+              <li><a href="index.php?action=reports&type=loyalty_awards">Loyalty Awards</a></li>
+              <li><a href="index.php?action=reports&type=coupon">Coupons</a></li>
+              <li><a href="index.php?action=reports&type=ecommerce">Ecommerce</a></li>
+              <li><a href="index.php?action=reports&type=log">App Logs</a></li>
+            </ul>
             </li>
               ';
               
