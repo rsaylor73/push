@@ -125,7 +125,7 @@ class Reports {
 
 		$sql = "
 		SELECT
-			MAX(`lccl`.`created_at`),
+			MAX(`lccl`.`created_at`) AS 'created_at',
 			`lccl`.`customer_id`,
 			`c`.`firstname`,
 			`c`.`lastname`,
