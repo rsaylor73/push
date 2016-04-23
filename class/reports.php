@@ -55,6 +55,10 @@ class Reports {
 	private function consumers() {
 		$DB = $this->get_proper_db('1'); // update TBD
 		
+		if ($_SESSION['app_id'] != "") {
+			$app_id = "AND `c`.`app_id` = '$_SESSION[app_id]'";
+		}
+
 		$sql = "
 		SELECT
 			`c`.`firstname`,
@@ -72,6 +76,7 @@ class Reports {
 
 		WHERE
 			`c`.`app_id` = `a`.`app_id`
+			$app_id
 
 		ORDER BY `a`.`name` ASC
 
