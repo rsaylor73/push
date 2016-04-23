@@ -231,11 +231,11 @@ class Reports {
 			`mo`.`created_at`
 
 		FROM
-			`mcommerce_order` mo,
-			`mcommerce` m,
-			`mcommerce_store` ms,
-			`application_option_value` aov,
-			`application` a
+			".$DB.".`mcommerce_order` mo,
+			".$DB.".`mcommerce` m,
+			".$DB.".`mcommerce_store` ms,
+			".$DB.".`application_option_value` aov,
+			".$DB.".`application` a
 
 		WHERE
 			`mo`.`store_id` = `ms`.`store_id`
@@ -252,7 +252,7 @@ class Reports {
 		$result = $this->new_mysql($sql);
 		while ($row = $result->fetch_assoc()) {
 			print "<tr><td>$row[created_at]</td><td>$row[number]</td><td>$row[payment_method]</td><td>$row[delivery_method]</td><td>$row[customer_firstname]</td><td>$row[customer_lastname]</td>
-			<td>$row[total]</td><td>$row[app_name]</td></tr>";
+			<td>$row[customer_phone]</td><td>$row[total]</td><td>$row[app_name]</td></tr>";
 		}
 		print "</table>";
 	}
