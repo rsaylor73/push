@@ -29,7 +29,9 @@ class Push {
 			$id = $row['app_id']; 
 			$crypto = $row['crypto']; 
 			$uuname = $row['uuname']; 
-			$uupass = $row ['uupass']; 
+			$uupass = $row ['uupass'];
+			$_SESSION['database'] = $row['database'];
+			$_SESSION['reports'] = $row['reports'];
 
 
 			switch ($server[0]) {
