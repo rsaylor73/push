@@ -137,11 +137,11 @@ class Reports {
 
 
 		FROM
-			".$DB."`loyalty_card_customer_log` lccl,
-			".$DB."`loyalty_card` lc,
-			".$DB."`customer` c,
-			".$DB."`application` a,
-			".$DB."`loyalty_card_password` lcp
+			".$DB.".`loyalty_card_customer_log` lccl,
+			".$DB.".`loyalty_card` lc,
+			".$DB.".`customer` c,
+			".$DB.".`application` a,
+			".$DB.".`loyalty_card_password` lcp
 
 		WHERE
 			`lccl`.`card_id` = `lc`.`card_id`
