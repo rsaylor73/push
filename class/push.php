@@ -35,9 +35,11 @@ class Push {
 			if ($row['super_admin'] != "Yes") {
 				$_SESSION['app_id'] = $id;
 				$_SESSION['reports'] = $row['reports'];
+				$_SESSION['push'] = $row['push'];
 			} else {
 				$_SESSION['app_id'] = "";
 				$_SESSION['reports'] = "";
+				$_SESSION['push'] = "";
 			}
 
 			switch ($server[0]) {
