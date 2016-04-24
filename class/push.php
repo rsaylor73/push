@@ -37,6 +37,8 @@ class Push {
 				$_SESSION['reports'] = $row['reports'];
 				$_SESSION['push'] = $row['push'];
 			} else {
+				// super admin
+				$_SESSION['push'] = $row['push'];
 				$_SESSION['app_id'] = "";
 				$_SESSION['reports'] = "";
 			}
@@ -46,6 +48,7 @@ class Push {
 				case "push":
 				case "pushv2":
 				$sub = "";
+
 				break;
 
 				default:
