@@ -582,7 +582,7 @@ class Push {
 			die;
 		}
 
-		print "<h2>Create New Push Site:</h2>";
+		print "<h2>Create New User:</h2>";
 
 		print "<form action=\"index.php\" method=\"post\" enctype=\"multipart/form-data\">
 		<input type=\"hidden\" name=\"action\" value=\"create_new_site\">
@@ -596,7 +596,8 @@ class Push {
 		<tr><td>Password:</td><td><input type=\"text\" name=\"uupass\" size=40 required></td></tr>
 		<tr><td>Siberian Database:</td><td><select name=\"database\"><option value=\"siberian_appwizard2\">Version 1</option><option value=\"wwsib2_siberian\">Version 2</option>
         </select></td></tr>
-        <tr><td>Reports:</td><td><select name=\"reports\"><option selected>$row[reports]</option><option>No</option><option>Yes</option></select></td></tr>
+        <tr><td>Push Notification</td><td><select name=\"push\"><option>No</option><option>Yes</option></select></td></tr>
+        <tr><td>Reports:</td><td><select name=\"reports\"><option>No</option><option>Yes</option></select></td></tr>
 		<tr><td colspan=2><input type=\"submit\" class=\"btn btn-primary\" value=\"Add User\"><br><font color=blue><b>NOTE: Please wait after clicking the button above. We are actually talking to cPanel to create the sub sub domain. This could take a few minutes for the API to get a return value.</font></b></td></tr>
 		</table>
 		</form>";
@@ -609,11 +610,12 @@ class Push {
                         die;
                 }
 
-		print "<h2>Manage Sites</h2>
+		print "<h2>Manage Users</h2>
 		<table class=\"table\">
 		<tr>
 			<td><b>Site</b></td>
 			<td><b>URL</b></td>
+			<td><b>Push Notifications</b></td>
 			<td><b>Reports</b></td>
 			<td><b>Database</b></td>
 			<td><b>Username</b></td>
@@ -651,6 +653,7 @@ class Push {
 			}
 
 			print "
+			<td>$row[push]</td>
 			<td>$row[reports]</td>
 			<td>$d</td>
 			<td>$row[uuname]</td>
@@ -677,7 +680,7 @@ class Push {
 		$sql = "SELECT * FROM ".LOCAL_DB.".`sites` WHERE `id` = '$_GET[id]'";
 		$result = $this->new_mysql($sql);
 		while ($row = $result->fetch_assoc()) {
-                print "<h2>Edit Push Site:</h2>";
+                print "<h2>Edit User:</h2>";
 
                 print "<form action=\"index.php\" method=\"post\" enctype=\"multipart/form-data\">
                 <input type=\"hidden\" name=\"action\" value=\"update_site\">
@@ -696,6 +699,8 @@ class Push {
                 	<option value=\"siberian_appwizard2\">Version 1</option>
                 	<option value=\"wwsib2_siberian\">Version 2</option>
                 </select></td></tr>
+                <tr><td>Push Notification</td><td><select name=\"push\"><option selected>$row[push]</option><option>No</option><option>Yes</option></select></td></tr>
+
                 <tr><td>Reports:</td><td><select name=\"reports\"><option selected>$row[reports]</option><option>No</option><option>Yes</option></select></td></tr>
                 <tr><td colspan=2><input type=\"submit\" class=\"btn btn-primary\" value=\"Update User\"><br>
 		</td></tr>
@@ -752,7 +757,7 @@ class Push {
 			$logo = ",`logo` = '$fileName2'";
 		}
 		$sql = "UPDATE ".LOCAL_DB.".`sites` SET `app_id` = '$_POST[app_id]', `crypto` = '$_POST[crypto]', `uupass` = '$_POST[uupass]',`database` = '$_POST[database]',
-		`reports` = '$_POST[reports]' $pem $logo WHERE `id` = '$_POST[id]'";
+		`reports` = '$_POST[reports]', `push` = '$_POST[push]' $pem $logo WHERE `id` = '$_POST[id]'";
 		$result = $this->new_mysql($sql);
 		if ($result == "TRUE") {
 			print "<br><font color=green>The site was updated.</font><br>";
@@ -838,8 +843,8 @@ class Push {
                         move_uploaded_file("$tmpName", "$fileName");
                         move_uploaded_file("$tmpName2", "img/$fileName2");
 
-			$sql = "INSERT INTO ".LOCAL_DB.".`sites` (`sub`,`pem`,`app_id`,`crypto`,`logo`,`uuname`,`uupass`,`database`,`reports`) VALUES
-			('$_POST[sub]','$fileName','$_POST[app_id]','$_POST[crypto]','$fileName2','$_POST[uuname]','$_POST[uupass]','$_POST[database]','$_POST[reports]')";
+			$sql = "INSERT INTO ".LOCAL_DB.".`sites` (`sub`,`pem`,`app_id`,`crypto`,`logo`,`uuname`,`uupass`,`database`,`reports`,`push`) VALUES
+			('$_POST[sub]','$fileName','$_POST[app_id]','$_POST[crypto]','$fileName2','$_POST[uuname]','$_POST[uupass]','$_POST[database]','$_POST[reports]','$_POST[push]')";
 			$result = $this->new_mysql($sql);
 			if ($result == "TRUE") {
 				print "<font color=blue>Config was updated.</font><br>";
