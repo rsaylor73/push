@@ -117,7 +117,7 @@ class Reports {
 		if ($_GET['h'] != "n") {
 
 
-			if ($_GET['stop'] != "") {
+			if ($_GET['stop'] == "") {
 				$stop = "0";
 			} else {
 				$stop = $_GET['stop'];
