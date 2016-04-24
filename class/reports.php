@@ -277,7 +277,8 @@ class Reports {
 			".$DB.".`customer` c
 
 		WHERE
-			`lc`.`card_id` = `lccl`.`card_id`
+			`lc`.`card_id` = '$_GET[id]'
+			AND `lc`.`card_id` = `lccl`.`card_id`
 			AND `lccl`.`password_id` = `lcp`.`password_id`
 			AND `lcp`.`app_id` = `a`.`app_id`
 			$app_id
@@ -285,8 +286,29 @@ class Reports {
 
 		GROUP BY `lccl`.`customer_id`
 
-		ORDER BY `a`.`name` ASC
 		";	
+
+
+		print "<h3>View Loyalty Stamp</h3>
+		<button class=\"btn\" onclick=\"window.history.go(-1); return false;\">
+			<i class=\"fa fa-backward\" aria-hidden=\"true\"></i>
+		</button>
+		<table class=\"table\">";
+		$result = $this->new_mysql($sql);
+		while ($row = $result->fetch_assoc()) {
+			print "
+			<tr><td>Created:</td><td>$row[created_at]</td></tr>
+			<tr><td>Application:</td><td>$row[name]</td></tr>
+			<tr><td>Employee:</td><td>$row[employee]</td></tr>
+			<tr><td>Points:</td><td>$row[number_of_points]</td></tr>
+			<tr><td>Firstname:</td><td>$row[firstname]</td></tr>
+			<tr><td>Lastname:</td><td>$row[lastname]</td></tr>
+			<tr><td>E-mail:</td><td><a href=\"mailto:$row[email]\">$row[email]</a></td></tr>
+			<tr><td>Card Name:</td><td>$row[card_name]</td></tr>
+
+			";
+		}
+		print "</table>";
 	}
 
 	private function loyalty_awards() {
