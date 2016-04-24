@@ -608,7 +608,8 @@ class Reports {
 			`mo`.`customer_email`,
 			`mo`.`customer_phone`,
 			`mo`.`total`,
-			`mo`.`created_at`
+			`mo`.`created_at`,
+			`mo`.`mcommerce_id`
 
 		FROM
 			".$DB.".`mcommerce_order` mo,
@@ -627,17 +628,111 @@ class Reports {
 		ORDER BY `a`.`name` ASC, `mo`.`created_at` DESC
 		";
 
-		print "<table class=\"table\">
-		<tr><td>Date</td><td>Number</td><td>Payment Method</td><td>Delivery Method</td><td>Firstname</td><td>Lastname</td><td>Phone</td><td>Total</td><td>Application</td></tr>";
+		if ($_GET['h'] != "n") {
+			print "<h3>Ecommerce</h3>";
+			print "<i>Click a table heading to sort</i>&nbsp;&nbsp;&nbsp;";
+			print "<button class=\"btn\" onclick=\"window.open('index.php?action=reports&type=ecommerce&h=n')\">
+			<i class=\"fa fa-download\" aria-hidden=\"true\"></i>
+			</button>
+			";
+		} else {
+			header("Content-type: text/csv");
+			header("Content-Disposition: attachment; filename=ecommerce.csv");
+			header("Pragma: no-cache");
+			header("Expires: 0");
+		}
+		print "<table class=\"table tablesorter\" id=\"myTable\">";
+		print "<thead>		
+		<tr><th>Date</th><th>Number</th><th>Payment Method</th><th>Delivery Method</th><th>Firstname</th><th>Lastname</th><th>Phone</th><th>Total</th><th>Application</th><th></th></tr>
+		<tbody>";
 
 		$result = $this->new_mysql($sql);
 		while ($row = $result->fetch_assoc()) {
 			print "<tr><td>$row[created_at]</td><td>$row[number]</td><td>$row[payment_method]</td><td>$row[delivery_method]</td><td>$row[customer_firstname]</td><td>$row[customer_lastname]</td>
-			<td>$row[customer_phone]</td><td>$row[total]</td><td>$row[app_name]</td></tr>";
+			<td>$row[customer_phone]</td><td>$row[total]</td><td>$row[app_name]</td>
+			<td>
+			<button class=\"btn\" onclick=\"document.location.href='index.php?action=reports&type=ecommerce_view&id=$row[mcommerce_id]'\">
+				<i class=\"fa fa-search\" aria-hidden=\"true\"></i>
+			</button>
+			</td>
+			</tr>";
+		}
+		print "</tbody></table>";
+
+		if ($_GET['h'] != "n") {
+		?>
+		<script>
+		$(document).ready(function() { 
+        	$("#myTable").tablesorter(); 
+    	} 
+		); 
+		</script>
+		<?php
+		}
+	}
+
+	private function ecommerce_view() {
+		$DB = $this->get_proper_db('1');
+
+		if ($_SESSION['app_id'] != "") {
+			$app_id = "AND `a`.`app_id` = '$_SESSION[app_id]'";
+		}
+
+		$sql = "
+		SELECT
+			`a`.`name` AS 'app_name',
+			`mo`.`number`,
+			`mo`.`payment_method`,
+			`mo`.`delivery_method`,
+			`mo`.`customer_firstname`,
+			`mo`.`customer_lastname`,
+			`mo`.`customer_email`,
+			`mo`.`customer_phone`,
+			`mo`.`total`,
+			`mo`.`created_at`,
+			`mo`.`mcommerce_id`
+
+		FROM
+			".$DB.".`mcommerce_order` mo,
+			".$DB.".`mcommerce` m,
+			".$DB.".`mcommerce_store` ms,
+			".$DB.".`application_option_value` aov,
+			".$DB.".`application` a
+
+		WHERE
+			`mo`.`mcommerce_id` = '$_GET[id]'
+			AND `mo`.`store_id` = `ms`.`store_id`
+			AND `ms`.`mcommerce_id` = `m`.`mcommerce_id`
+			AND `m`.`value_id` = `aov`.`value_id`
+			AND `aov`.`app_id` = `a`.`app_id`
+			$app_id
+
+		ORDER BY `a`.`name` ASC, `mo`.`created_at` DESC
+		";
+
+		print "<h3>View Ecommerce</h3>
+		<button class=\"btn\" onclick=\"window.history.go(-1); return false;\">
+			<i class=\"fa fa-backward\" aria-hidden=\"true\"></i>
+		</button>
+		<table class=\"table\">";
+		$result = $this->new_mysql($sql);
+		while ($row = $result->fetch_assoc()) {
+			print "
+			<tr><td>Date:</td><td>$row[created_at]</td></tr>
+			<tr><td>Number:</td><td>$row[number]</td></tr>
+			<tr><td>Payment Method:</td><td>$row[payment_method]</td></tr>
+			<tr><td>Delivery Method:</td><td>$row[delivery_method]</td></tr>
+			<tr><td>Firstname:</td><td>$row[customer_firstname]</td></tr>
+			<tr><td>Lastname:</td><td>$row[customer_lastname]</td></tr>
+			<tr><td>Phone:</td><td>$row[customer_phone]</td></tr>
+			<tr><td>E-mail:</td><td><a href=\"mailto:$row[customer_email]\">$row[customer_email]</a></td></tr>
+			<tr><td>Total:</td><td>$row[total]</td></tr>
+			<tr><td>Application:</td><td>$row[app_name]</td></tr>
+
+			";
 		}
 		print "</table>";
 	}
-
 
 	private function log() {
 		$DB = $this->get_proper_db('1');
