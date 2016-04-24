@@ -79,8 +79,17 @@ class Reports {
 		$result = $this->new_mysql($sql);
 		$total_records = $result->num_rows;
 		$total_records = $total_records / 10;
-		$total_records = ceil($total_records);
-		print "Test $total_records<br>";
+		$pages = ceil($total_records);
+
+		if ($pages > 1) {
+			print '
+			<div class="btn-toolbar" role="toolbar" aria-label="...">
+  				<div class="btn-group" role="group" aria-label="...">1</div>
+  				<div class="btn-group" role="group" aria-label="...">2</div>
+  				<div class="btn-group" role="group" aria-label="...">3</div>
+			</div>
+			';
+		}
 
 		if ($_GET['h'] != "n") {
 			print "<h3>Registered Users</h3>";
