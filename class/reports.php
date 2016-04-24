@@ -116,6 +116,7 @@ class Reports {
 			</button>
 			";
 		} else {
+			$sql .= "LIMIT 0,20";
 			header("Content-type: text/csv");
 			header("Content-Disposition: attachment; filename=consumers.csv");
 			header("Pragma: no-cache");
