@@ -117,7 +117,7 @@ class Reports {
 
 		WHERE
 			`c`.`customer_id` = '$_GET[id]'
-			`c`.`app_id` = `a`.`app_id`
+			AND `c`.`app_id` = `a`.`app_id`
 			$app_id
 
 		";
