@@ -83,10 +83,13 @@ class Reports {
 		";
 		print "<h3>Customer</h3>";
 		print "<table class=\"table\">";
-		print "<tr><td><b>Registration</b></td><td><b>First Name</b></td><td><b>Last Name</b></td><td><b>Civility</b></td><td><b>E-mail</b></td><td><b>Application</b></td></tr>";
+		print "<tr><td><b>Registration</b></td><td><b>First Name</b></td><td><b>Last Name</b></td><td><b>Civility</b></td><td><b>E-mail</b></td><td><b>Application</b></td><td>&nbsp;</td></tr>";
 		$result = $this->new_mysql($sql);
 		while ($row = $result->fetch_assoc()) {
-			print "<tr><td>$row[registered]</td><td>$row[firstname]</td><td>$row[lastname]</td><td>$row[civility]</td><td>$row[email]</td><td>$row[name]</td></tr>";
+			print "<tr><td>$row[registered]</td><td>$row[firstname]</td><td>$row[lastname]</td><td>$row[civility]</td><td>$row[email]</td><td>$row[name]</td>
+			<td>
+			<input type=\"button\" class=\"btn btn-default fa fa-search\">
+			</td></tr>";
 		}
 		print "</table>";
 	}
