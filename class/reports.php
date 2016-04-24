@@ -186,7 +186,8 @@ class Reports {
 			`c`.`email`,
 			`lc`.`name` AS 'card_name',
 			`lc`.`created_at`,
-			`lc`.`card_id`
+			`lc`.`card_id`,
+			`c`.`customer_id`
 
 
 
@@ -231,7 +232,7 @@ class Reports {
 		while ($row = $result->fetch_assoc()) {
 			print "<tr><td>$row[created_at]</td><td>$row[app_name]</td><td>$row[employee]</td><td>$row[number_of_points]</td><td>$row[firstname]</td><td>$row[lastname]</td>
 			<td>$row[email]</td><td>$row[card_name]</td><td>
-			<button class=\"btn\" onclick=\"document.location.href='index.php?action=reports&type=loyalty_stamps_view&id=$row[card_id]'\">
+			<button class=\"btn\" onclick=\"document.location.href='index.php?action=reports&type=loyalty_stamps_view&id=$row[customer_id]'\">
 				<i class=\"fa fa-search\" aria-hidden=\"true\"></i>
 			</button></td></tr>";
 		}
@@ -277,12 +278,12 @@ class Reports {
 			".$DB.".`customer` c
 
 		WHERE
-			`lc`.`card_id` = '$_GET[id]'
-			AND `lc`.`card_id` = `lccl`.`card_id`
+			`lc`.`card_id` = `lccl`.`card_id`
 			AND `lccl`.`password_id` = `lcp`.`password_id`
 			AND `lcp`.`app_id` = `a`.`app_id`
 			$app_id
 			AND `lccl`.`customer_id` = `c`.`customer_id`
+			AND `lccl`.`customer_id` = '$_GET[id]'
 
 		GROUP BY `lccl`.`customer_id`
 
