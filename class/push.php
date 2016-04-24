@@ -39,7 +39,6 @@ class Push {
 			} else {
 				$_SESSION['app_id'] = "";
 				$_SESSION['reports'] = "";
-				$_SESSION['push'] = "";
 			}
 
 			switch ($server[0]) {
@@ -241,6 +240,10 @@ class Push {
 	}
 
 	public function push_form() {
+		if ($_SESSION['push'] != "Yes") {
+			print "<br><font color=red>Sorry, but you do not have access to Push Notification.</font>";
+			die;
+		}
 		$names = $this->get_tokens('name');
 		print "<h2><span class=\"fa fa-apple\"> Push Form</a></h2>";
 
@@ -313,6 +316,10 @@ class Push {
 	}
 
         public function push_form_android() {
+        	if ($_SESSION['push'] != "Yes") {
+				print "<br><font color=red>Sorry, but you do not have access to Push Notification.</font>";
+				die;
+			}
                 $names = $this->get_tokens_android('name');
                 print "<h2><span class=\"fa fa-android\"> Push Form</span></h2>";
 
