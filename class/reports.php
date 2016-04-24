@@ -68,7 +68,7 @@ class Reports {
 
 				$html .= "<button type=\"button\" class=\"btn btn-default\" onclick=\"document.location.href='".$url.$pre."&stop=$max'\">&lt;&lt;</button>";
 				
-				$html .= "<button type=\"button\" class=\"btn btn-primary\" onclick=\"document.location.href='".$url.$page."&stop=$max'\">$i2</button>";
+				$html .= "<button type=\"button\" class=\"btn btn-primary\" onclick=\"document.location.href='".$url.$page."&stop=$max'\">$page</button>";
 
 				$html .= "<button type=\"button\" class=\"btn btn-default\" onclick=\"document.location.href='".$url.$next."&stop=$max'\">&gt;&gt;</button>";
 
