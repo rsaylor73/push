@@ -651,7 +651,7 @@ class Reports {
 			print "<tr><td>$row[created_at]</td><td>$row[number]</td><td>$row[payment_method]</td><td>$row[delivery_method]</td><td>$row[customer_firstname]</td><td>$row[customer_lastname]</td>
 			<td>$row[customer_phone]</td><td>$row[total]</td><td>$row[app_name]</td>
 			<td>
-			<button class=\"btn\" onclick=\"document.location.href='index.php?action=reports&type=ecommerce_view&id=$row[mcommerce_id]'\">
+			<button class=\"btn\" onclick=\"document.location.href='index.php?action=reports&type=ecommerce_view&id=$row[mcommerce_id]&n=$row[number]'\">
 				<i class=\"fa fa-search\" aria-hidden=\"true\"></i>
 			</button>
 			</td>
@@ -701,6 +701,7 @@ class Reports {
 
 		WHERE
 			`mo`.`mcommerce_id` = '$_GET[id]'
+			AND `mo`.`number` = '$_GET[n]'
 			AND `mo`.`store_id` = `ms`.`store_id`
 			AND `ms`.`mcommerce_id` = `m`.`mcommerce_id`
 			AND `m`.`value_id` = `aov`.`value_id`
