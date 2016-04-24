@@ -78,17 +78,21 @@ class Reports {
 
 		$result = $this->new_mysql($sql);
 		$total_records = $result->num_rows;
-		$total_records = $total_records / 10;
+		$total_records = $total_records / 20;
 		$pages = ceil($total_records);
 
-		if ($pages > 1) {
-			print '
-<div class="btn-group" role="group" aria-label="...">
-  <button type="button" class="btn btn-default">Left</button>
-  <button type="button" class="btn btn-default">Middle</button>
-  <button type="button" class="btn btn-default">Right</button>
-</div>
-			';
+		if (($pages > 1) && ($_GET['h'] != "n")) {
+			$page = $_GET['page'];
+			if ($page == "") {
+				$page = "1";
+			}
+			$html = "<div class=\"btn-group\" role=\"group\" aria-label=\"...\">";
+			for ($i=0; $i < $pages; $i++) {
+				$i2 = $i + 1;
+				$html .= "<button type=\"button\" class=\"btn btn-default\">$i2</button>";
+			}
+			$html .= "</div>";
+			print "$html";
 		}
 
 		if ($_GET['h'] != "n") {
