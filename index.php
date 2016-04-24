@@ -4,8 +4,11 @@ include "settings.php";
 $settings = $push->get_settings();
 $check_login = $push->check_login();
 
-include "templates/header.phtml";
-include "templates/nav.phtml";
+if ($_GET['h'] != "n") {
+	include "templates/header.phtml";
+	include "templates/nav.phtml";
+}
+
 if ($check_login != "TRUE") {
 	$push->login($null);
 	die;
@@ -71,5 +74,7 @@ if ($_GET['action'] == "reports") {
 	$reports->module($_GET['type']);
 }
 
-include "templates/footer.phtml";
+if ($_GET['h'] != "n") {
+	include "templates/footer.phtml";
+}
 ?>

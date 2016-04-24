@@ -77,6 +77,10 @@ class Reports {
 		";
 		print "<h3>Customer</h3>";
 		print "<i>Click a table heading to sort</i>";
+		print "<button class=\"btn\" onclick=\"window.open('index.php?action=reports&type=customers&h=n')\">
+			<i class=\"fa fa-download\" aria-hidden=\"true\"></i>
+		</button>
+		";
 		print "<table class=\"table tablesorter\" id=\"myTable\">";
 		print "<thead>";
 		print "<tr><th><b>Registration</b></th><th><b>First Name</b></th><th><b>Last Name</b></th><th><b>Civility</b></th><th><b>E-mail</b></th><th><b>Application</b></th><th>&nbsp;</th></tr>";
