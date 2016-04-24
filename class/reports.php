@@ -81,6 +81,7 @@ class Reports {
 				$pre = $page - 1;
 				$next = $page + 1;
 				$next10 = $page + 10;
+				$next100 = $page + 100;
 
 				$html .= "<button type=\"button\" class=\"btn btn-default\" onclick=\"document.location.href='".$url."1&stop=0'\">1</button>";
 
@@ -88,10 +89,17 @@ class Reports {
 				
 				$html .= "<button type=\"button\" class=\"btn btn-primary\" onclick=\"document.location.href='".$url.$page."&stop=$array[$page]'\">$page</button>";
 
-				$html .= "<button type=\"button\" class=\"btn btn-default\" onclick=\"document.location.href='".$url.$next."&stop=$array[$next]'\">&gt;&gt;</button>";
+				if ($next < $pages) {
+					$html .= "<button type=\"button\" class=\"btn btn-default\" onclick=\"document.location.href='".$url.$next."&stop=$array[$next]'\">&gt;&gt;</button>";
+				}
 
-				$html .= "<button type=\"button\" class=\"btn btn-default\" onclick=\"document.location.href='".$url.$next10."&stop=$array[$next10]'\">+ 10</button>";
+				if $next10 < $pages) {
+					$html .= "<button type=\"button\" class=\"btn btn-default\" onclick=\"document.location.href='".$url.$next10."&stop=$array[$next10]'\">+ 10</button>";
+				}
 
+				if $next100 < $pages) {
+					$html .= "<button type=\"button\" class=\"btn btn-default\" onclick=\"document.location.href='".$url.$next100."&stop=$array[$next100]'\">+ 100</button>";
+				}
 
 				$html .= "<button type=\"button\" class=\"btn btn-default\" onclick=\"document.location.href='".$url.$pages."&stop=$array[$pages]'\">$pages</button>";
 
