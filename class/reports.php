@@ -367,7 +367,7 @@ class Reports {
 		}
 		print "<table class=\"table tablesorter\" id=\"myTable\">";
 		print "<thead>
-		<tr><th>Last Used</th><th>Points</th><th>Firstname</th><th>Lastname</th><th>E-mail</th><th>Application</th><th>Card Name</th><th>Employee</th></tr>";
+		<tr><th>Last Used</th><th>Points</th><th>Firstname</th><th>Lastname</th><th>E-mail</th><th>Application</th><th>Card Name</th><th>Employee</th><th></th></tr>";
 		print "<tbody>";
 		$result = $this->new_mysql($sql);
 		while ($row = $result->fetch_assoc()) {
@@ -474,7 +474,8 @@ class Reports {
 			`c`.`firstname`,
 			`c`.`lastname`,
 			`c`.`email`,
-			`a`.`name`
+			`a`.`name`,
+			`c`.`customer_id`
 
 		FROM
 			".$DB.".`promotion` p,
@@ -491,15 +492,102 @@ class Reports {
 		GROUP BY `pc`.`customer_id`
 		";
 
-		print "<table class=\"table\">
-		<tr><td>Used</td><td>Coupon Name</td><td>Description</td><td>Firstname</td><td>Lastname</td><td>E-mail</td><td>Application</td></tr>";
+		if ($_GET['h'] != "n") {
+			print "<h3>Coupon</h3>";
+			print "<i>Click a table heading to sort</i>&nbsp;&nbsp;&nbsp;";
+			print "<button class=\"btn\" onclick=\"window.open('index.php?action=reports&type=coupon&h=n')\">
+			<i class=\"fa fa-download\" aria-hidden=\"true\"></i>
+			</button>
+			";
+		} else {
+			header("Content-type: text/csv");
+			header("Content-Disposition: attachment; filename=coupon.csv");
+			header("Pragma: no-cache");
+			header("Expires: 0");
+		}
+		print "<table class=\"table tablesorter\" id=\"myTable\">";
+		print "<thead>
+		<tr><th>Used</th><th>Coupon Name</th><th>Description</th><th>Firstname</th><th>Lastname</th><th>E-mail</th><th>Application</th><th></th></tr>
+		<tbody>";
 		$result = $this->new_mysql($sql);
 		while ($row = $result->fetch_assoc()) {
-			print "<tr><td>$row[used]</td><td>$row[title]</td><td>$row[description]</td><td>$row[firstname]</td><td>$row[lastname]</td><td>$row[email]</td><td>$row[name]</td></tr>";
+			print "<tr><td>$row[used]</td><td>$row[title]</td><td>$row[description]</td><td>$row[firstname]</td><td>$row[lastname]</td><td>$row[email]</td><td>$row[name]</td>
+			<td>
+			<button class=\"btn\" onclick=\"document.location.href='index.php?action=reports&type=coupon_view&id=$row[customer_id]'\">
+				<i class=\"fa fa-search\" aria-hidden=\"true\"></i>
+			</button>
+			</td>
+			</tr>";
+		}
+		print "</tbody></table>";
+
+		if ($_GET['h'] != "n") {
+		?>
+		<script>
+		$(document).ready(function() { 
+        	$("#myTable").tablesorter(); 
+    	} 
+		); 
+		</script>
+		<?php
+		}
+	}
+
+	private function coupon_view() {
+
+		$DB = $this->get_proper_db('1');
+
+		if ($_SESSION['app_id'] != "") {
+			$app_id = "AND `a`.`app_id` = '$_SESSION[app_id]'";
+		}
+
+		$sql = "
+		SELECT
+			`pc`.`created_at` AS 'used',
+			`p`.`title`,
+			`p`.`description`,
+			`p`.`conditions`,
+			`c`.`firstname`,
+			`c`.`lastname`,
+			`c`.`email`,
+			`a`.`name`,
+			`c`.`customer_id`
+
+		FROM
+			".$DB.".`promotion` p,
+			".$DB.".`promotion_customer` pc,
+			".$DB.".`customer` c,
+			".$DB.".`application` a
+
+		WHERE
+			`p`.`promotion_id` = `pc`.`promotion_id`
+			AND `pc`.`customer_id` = `c`.`customer_id`
+			AND `c`.`app_id` = `a`.`app_id`
+			$app_id
+
+		";
+
+		print "<h3>View Coupon</h3>
+		<button class=\"btn\" onclick=\"window.history.go(-1); return false;\">
+			<i class=\"fa fa-backward\" aria-hidden=\"true\"></i>
+		</button>
+		<table class=\"table\">";
+		$result = $this->new_mysql($sql);
+		while ($row = $result->fetch_assoc()) {
+			print "
+			<tr><td>Last Used:</td><td>$row[used]</td></tr>
+			<tr><td>Coupon Name:</td><td>$row[title]</td></tr>
+			<tr><td>Description:</td><td>$row[description]</td></tr>
+			<tr><td>Firstname:</td><td>$row[firstname]</td></tr>
+			<tr><td>Lastname:</td><td>$row[lastname]</td></tr>
+			<tr><td>E-mail:</td><td><a href=\"mailto:$row[email]\">$row[email]</a></td></tr>
+			<tr><td>Application:</td><td>$row[name]</td></tr>
+			<tr><td colspan=2><hr></td></tr>
+
+			";
 		}
 		print "</table>";
 	}
-
 
 	private function ecommerce() {
 		$DB = $this->get_proper_db('1');
