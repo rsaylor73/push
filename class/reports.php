@@ -748,7 +748,8 @@ class Reports {
 			`l`.`remote_addr`,
 			`l`.`visited_at`,
 			`l`.`customer_id`,
-			`l`.`device_name`
+			`l`.`device_name`,
+			`l`.`log_id`
 
 		FROM
 			".$DB.".`log` l,
@@ -763,8 +764,23 @@ class Reports {
 
 		";
 
-		print "<table class=\"table\">
-		<tr><td>Visited</td><td>IP</td><td>Application</td><td>Device</td><td>Firstname</td><td>Lastname</td><td>E-mail</td></tr>";
+		if ($_GET['h'] != "n") {
+			print "<h3>Log</h3>";
+			print "<i>Click a table heading to sort</i>&nbsp;&nbsp;&nbsp;";
+			print "<button class=\"btn\" onclick=\"window.open('index.php?action=reports&type=log&h=n')\">
+			<i class=\"fa fa-download\" aria-hidden=\"true\"></i>
+			</button>
+			";
+		} else {
+			header("Content-type: text/csv");
+			header("Content-Disposition: attachment; filename=log.csv");
+			header("Pragma: no-cache");
+			header("Expires: 0");
+		}
+		print "<table class=\"table tablesorter\" id=\"myTable\">";
+		print "<thead>			
+		<tr><th>Visited</th><th>IP</th><th>Application</th><th>Device</th><th>Firstname</th><th>Lastname</th><th>E-mail</th><th></th></tr>
+		<tbody>";
 		$result = $this->new_mysql($sql);
 		while ($row = $result->fetch_assoc()) {
 			if ($row['customer_id'] != "") {
@@ -791,12 +807,101 @@ class Reports {
 					$email = $row2['email'];
 				}
 			}
-			print "<tr><td>$row[visited_at]</td><td>$row[remote_addr]</td><td>$row[app_name]</td><td>$row[device_name]</td><td>$firstname</td><td>$lastname</td><td>$email</td></tr>";
+			print "<tr><td>$row[visited_at]</td><td>$row[remote_addr]</td><td>$row[app_name]</td><td>$row[device_name]</td><td>$firstname</td><td>$lastname</td><td>$email</td>
+			<td>
+			<button class=\"btn\" onclick=\"document.location.href='index.php?action=reports&type=log_view&id=$row[log_id]'\">
+				<i class=\"fa fa-search\" aria-hidden=\"true\"></i>
+			</button>
+			</td>
+			</tr>";
 		}
-		print "</table>";
+		print "</tbody></table>";
+
+		if ($_GET['h'] != "n") {
+		?>
+		<script>
+		$(document).ready(function() { 
+        	$("#myTable").tablesorter(); 
+    	} 
+		); 
+		</script>
+		<?php
+		}
 	}
 
+	private function log_view() {
+		$DB = $this->get_proper_db('1');
 
+		if ($_SESSION['app_id'] != "") {
+			$app_id = "AND `a`.`app_id` = '$_SESSION[app_id]'";
+		}
+
+		$sql = "
+		SELECT
+			`a`.`name` AS 'app_name',
+			`l`.`remote_addr`,
+			`l`.`visited_at`,
+			`l`.`customer_id`,
+			`l`.`device_name`,
+			`l`.`log_id`
+
+		FROM
+			".$DB.".`log` l,
+			".$DB.".`application` a
+
+
+		WHERE
+			`l`.`log_id` = '$_GET[id]'
+			AND `l`.`app_id` = `a`.`app_id`
+			$app_id
+
+		";
+		$result = $this->new_mysql($sql);
+		while ($row = $result->fetch_assoc()) {
+			if ($row['customer_id'] != "") {
+				$sql2 = "
+				SELECT
+					`c`.`firstname`,
+					`c`.`lastname`,
+					`c`.`email`
+
+				FROM
+					`customer` c
+
+				WHERE
+					`c`.`customer_id` = '$row[customer_id]'
+				";
+				$firstname = "";
+				$lastname = "";
+				$email = "";
+
+				$result2 = $this->new_mysql($sql2);
+				while ($row2 = $result2->fetch_assoc()) {
+					$firstname = $row2['firstname'];
+					$lastname = $row2['lastname'];
+					$email = $row2['email'];
+				}
+			}
+			// here
+			print "<h3>View Log</h3>
+			<button class=\"btn\" onclick=\"window.history.go(-1); return false;\">
+			<i class=\"fa fa-backward\" aria-hidden=\"true\"></i>
+			</button>
+			<table class=\"table\">";
+			print "
+			<tr><td>Visited:</td><td>$row[visited_at]</td></tr>
+			<tr><td>IP:</td><td>$row[remote_addr]</td></tr>
+			<tr><td>Application:</td><td>$row[app_name]</td></tr>
+			<tr><td>Device:</td><td>$row[device_name]</td></tr>
+
+			<tr><td>Firstname:</td><td>$firstname</td></tr>
+			<tr><td>Lastname:</td><td>$lastname</td></tr>
+			<tr><td>E-mail:</td><td><a href=\"mailto:$email\">$email</a></td></tr>
+
+			";
+			print "</table>";
+		}
+	}
 
 
 
