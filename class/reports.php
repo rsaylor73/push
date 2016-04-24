@@ -75,6 +75,12 @@ class Reports {
 		ORDER BY `a`.`name` ASC
 
 		";
+
+		$result = $this->new_mysql($sql);
+		$total_records = $result->num_rows;
+		$total_records = $total_records / 10;
+		print "Test $total_records<br>";
+
 		if ($_GET['h'] != "n") {
 			print "<h3>Registered Users</h3>";
 			print "<i>Click a table heading to sort</i>&nbsp;&nbsp;&nbsp;";
