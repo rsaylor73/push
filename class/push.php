@@ -34,8 +34,10 @@ class Push {
 			$_SESSION['reports'] = $row['reports'];
 			if ($row['super_admin'] != "Yes") {
 				$_SESSION['app_id'] = $id;
+				$_SESSION['reports'] = $row['reports'];
 			} else {
 				$_SESSION['app_id'] = "";
+				$_SESSION['reports'] = "";
 			}
 
 			switch ($server[0]) {
@@ -56,6 +58,7 @@ class Push {
 			$logo = $row['logo'];
 			$found = "1";
 			$super = $row['super_admin'];
+			$_SESSION['super'] = $super;
 		}
 	
 		if ($found != "1") {

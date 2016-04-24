@@ -12,30 +12,8 @@ class Reports {
 	}
 
 	public function module($type) {
-		switch ($type) {
-			case "consumers":
-				$this->consumers();
-			break;
-
-			case "loyalty_stamps":
-				$this->loyalty_stamps();
-			break;
-
-			case "loyalty_awards":
-				$this->loyalty_awards();
-			break;
-
-			case "coupon":
-				$this->coupon();
-			break;
-
-			case "ecommerce":
-				$this->ecommerce();
-			break;
-
-			case "log":
-				$this->log();
-			break;
+		if(method_exists('Reports', $type)) {
+			$this->$type();
 		}
 	}
 
@@ -52,7 +30,22 @@ class Reports {
 		return $name;
 	}
 
+	private function check_report_access() {
+		if ($_SESSION['reports'] != "Yes") {
+			$err = "1";
+		}
+		if ($_SESSION['super'] == "Yes") {
+			$err = "";
+		}
+		if ($err == "1") {
+			print "<font color=red>You do not have access to view reports.</font><br>";
+			die;
+		}
+	}
+
 	private function consumers() {
+		$this->check_report_access();
+
 		$DB = $this->get_proper_db('1'); // update TBD
 		
 		if ($_SESSION['app_id'] != "") {
@@ -61,6 +54,7 @@ class Reports {
 
 		$sql = "
 		SELECT
+			`c`.`customer_id`,
 			`c`.`firstname`,
 			`c`.`lastname`,
 			`c`.`phonenumber`,
@@ -88,12 +82,64 @@ class Reports {
 		while ($row = $result->fetch_assoc()) {
 			print "<tr><td>$row[registered]</td><td>$row[firstname]</td><td>$row[lastname]</td><td>$row[civility]</td><td>$row[email]</td><td>$row[name]</td>
 			<td>
-			<button class=\"btn\">
+			<button class=\"btn\" document.location.href=\"index.php?action=reports&type=viewcustomer&id=$row[customer_id]\">
 				<i class=\"fa fa-search\" aria-hidden=\"true\"></i>
 			</button>
 			</td></tr>";
 		}
 		print "</table>";
+	}
+
+	private function viewcustomer() {
+		$this->check_report_access();
+
+		$DB = $this->get_proper_db('1'); // update TBD
+
+		if ($_SESSION['app_id'] != "") {
+			$app_id = "AND `a`.`app_id` = '$_SESSION[app_id]'";
+		}
+
+		$sql = "
+		SELECT
+			`c`.`customer_id`,
+			`c`.`firstname`,
+			`c`.`lastname`,
+			`c`.`phonenumber`,
+			`c`.`email`,
+			`a`.`name`,
+			`c`.`civility`,
+			DATE_FORMAT(`a`.`created_at`,'%d %b %Y') AS 'registered'
+
+
+		FROM
+			".$DB.".`customer` c, ".$DB.".`application` a
+
+
+		WHERE
+			`c`.`customer_id` = '$_GET[id]'
+			`c`.`app_id` = `a`.`app_id`
+			$app_id
+
+		ORDER BY `a`.`name` ASC
+
+		";
+
+		print "<h3>View Customer</h3>
+		<table class=\"table\">";
+		$result = $this->new_mysql($sql);
+		while ($row = $result->fetch_assoc()) {
+			print "
+			<tr><td>Registered:</td><td>$row[registered]</td></tr>
+			<tr><td>Firstname:</td><td>$row[firstname]</td></tr>
+			<tr><td>Lastname:</td><td>$row[lastname]</td></tr>
+			<tr><td>Civility:</td><td>$row[civility]</td></tr>
+			<tr><td>E-mail:</td><td><a href=\"mailto:$row[email]\">$row[email]</a></td></tr>
+			<tr><td>Application:</td><td>$row[name]</td></tr>
+
+			";
+		}
+		print "</table>";
+
 	}
 
 	private function loyalty_stamps() {
