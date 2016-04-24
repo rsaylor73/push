@@ -79,6 +79,7 @@ class Reports {
 		$result = $this->new_mysql($sql);
 		$total_records = $result->num_rows;
 		$total_records = $total_records / 10;
+		$total_records = ceil($total_records);
 		print "Test $total_records<br>";
 
 		if ($_GET['h'] != "n") {
