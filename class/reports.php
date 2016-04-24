@@ -72,7 +72,6 @@ class Reports {
 			`c`.`app_id` = `a`.`app_id`
 			$app_id
 
-		ORDER BY `a`.`name` ASC
 
 		";
 		print "<h3>Customer</h3>";
