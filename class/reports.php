@@ -122,9 +122,11 @@ class Reports {
 
 		";
 
-		print "SQL:<br>$sql<br>";
 
 		print "<h3>View Customer</h3>
+		<button class=\"btn\" onclick=\"window.history.go(-1); return false;\">
+			<i class=\"fa fa-backward\" aria-hidden=\"true\"></i>
+		</button>
 		<table class=\"table\">";
 		$result = $this->new_mysql($sql);
 		while ($row = $result->fetch_assoc()) {
@@ -134,6 +136,7 @@ class Reports {
 			<tr><td>Lastname:</td><td>$row[lastname]</td></tr>
 			<tr><td>Civility:</td><td>$row[civility]</td></tr>
 			<tr><td>E-mail:</td><td><a href=\"mailto:$row[email]\">$row[email]</a></td></tr>
+			<tr><td>Phone:</td><td>$row[phonenumber]</td></tr>
 			<tr><td>Application:</td><td>$row[name]</td></tr>
 
 			";
