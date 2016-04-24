@@ -43,6 +43,33 @@ class Reports {
 		}
 	}
 
+	private function page_numbers($sql,$url) {
+		$result = $this->new_mysql($sql);
+		$total_records = $result->num_rows;
+		$total_records = $total_records / 20;
+		$pages = ceil($total_records);
+		$url = "index.php?action=reports&type=consumers&page=";
+		if (($pages > 1) && ($_GET['h'] != "n")) {
+			$page = $_GET['page'];
+			if ($page == "") {
+				$page = "1";
+			}
+			$html = "<div class=\"btn-group\" role=\"group\" aria-label=\"...\">";
+			$html .= "<button type=\"button\" class=\"btn btn-default\" disabled>Page</button>";
+			for ($i=0; $i < $pages; $i++) {
+				$i2 = $i + 1;
+				if ($i2 == $page) {
+					$class = "btn-primary";
+				} else {
+					$class = "btn-default";
+				}
+				$html .= "<button type=\"button\" class=\"btn $class\" onclick=\"document.location.href='".$url.$i2."'\">$i2</button>";
+			}
+			$html .= "</div>";
+			return "$html";
+		}	
+	}
+
 	private function consumers() {
 		$this->check_report_access();
 
@@ -76,32 +103,12 @@ class Reports {
 
 		";
 
-		$result = $this->new_mysql($sql);
-		$total_records = $result->num_rows;
-		$total_records = $total_records / 20;
-		$pages = ceil($total_records);
+		// page numbers
 		$url = "index.php?action=reports&type=consumers&page=";
-		if (($pages > 1) && ($_GET['h'] != "n")) {
-			$page = $_GET['page'];
-			if ($page == "") {
-				$page = "1";
-			}
-			$html = "<div class=\"btn-group\" role=\"group\" aria-label=\"...\">";
-			$html .= "<button type=\"button\" class=\"btn btn-default\" disabled>Page</button>";
-			for ($i=0; $i < $pages; $i++) {
-				$i2 = $i + 1;
-				if ($i2 == $page) {
-					$class = "btn-primary";
-				} else {
-					$class = "btn-default";
-				}
-				$html .= "<button type=\"button\" class=\"btn $class\" onclick=\"document.location.href='".$url.$i2."'\">$i2</button>";
-			}
-			$html .= "</div>";
-			print "$html";
-		}
+		$show_pages = $this->page_numbers($sql,$url);
 
 		if ($_GET['h'] != "n") {
+			print "$show_pages";
 			print "<h3>Registered Users</h3>";
 			print "<i>Click a table heading to sort</i>&nbsp;&nbsp;&nbsp;";
 			print "<button class=\"btn\" onclick=\"window.open('index.php?action=reports&type=consumers&h=n')\">
