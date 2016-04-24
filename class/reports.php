@@ -108,6 +108,8 @@ class Reports {
 		$show_pages = $this->page_numbers($sql,$url);
 
 		if ($_GET['h'] != "n") {
+			$sql .= "LIMIT 0,20";
+
 			print "$show_pages";
 			print "<h3>Registered Users</h3>";
 			print "<i>Click a table heading to sort</i>&nbsp;&nbsp;&nbsp;";
@@ -116,7 +118,6 @@ class Reports {
 			</button>
 			";
 		} else {
-			$sql .= "LIMIT 0,20";
 			header("Content-type: text/csv");
 			header("Content-Disposition: attachment; filename=consumers.csv");
 			header("Pragma: no-cache");
