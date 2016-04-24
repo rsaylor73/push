@@ -93,11 +93,11 @@ class Reports {
 					$html .= "<button type=\"button\" class=\"btn btn-default\" onclick=\"document.location.href='".$url.$next."&stop=$array[$next]'\">&gt;&gt;</button>";
 				}
 
-				if $next10 < $pages) {
+				if ($next10 < $pages) {
 					$html .= "<button type=\"button\" class=\"btn btn-default\" onclick=\"document.location.href='".$url.$next10."&stop=$array[$next10]'\">+ 10</button>";
 				}
 
-				if $next100 < $pages) {
+				if ($next100 < $pages) {
 					$html .= "<button type=\"button\" class=\"btn btn-default\" onclick=\"document.location.href='".$url.$next100."&stop=$array[$next100]'\">+ 100</button>";
 				}
 
