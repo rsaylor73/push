@@ -83,11 +83,11 @@ class Reports {
 
 		if ($pages > 1) {
 			print '
-			<div class="btn-toolbar" role="toolbar" aria-label="...">
-  				<div class="btn-group" role="group" aria-label="...">1</div>
-  				<div class="btn-group" role="group" aria-label="...">2</div>
-  				<div class="btn-group" role="group" aria-label="...">3</div>
-			</div>
+<div class="btn-group" role="group" aria-label="...">
+  <button type="button" class="btn btn-default">Left</button>
+  <button type="button" class="btn btn-default">Middle</button>
+  <button type="button" class="btn btn-default">Right</button>
+</div>
 			';
 		}
 
