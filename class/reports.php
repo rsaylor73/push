@@ -562,6 +562,7 @@ class Reports {
 		WHERE
 			`p`.`promotion_id` = `pc`.`promotion_id`
 			AND `pc`.`customer_id` = `c`.`customer_id`
+			AND `c`.`customer_id` = '$_GET[id]'
 			AND `c`.`app_id` = `a`.`app_id`
 			$app_id
 
