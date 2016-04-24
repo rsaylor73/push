@@ -88,7 +88,9 @@ class Reports {
 		while ($row = $result->fetch_assoc()) {
 			print "<tr><td>$row[registered]</td><td>$row[firstname]</td><td>$row[lastname]</td><td>$row[civility]</td><td>$row[email]</td><td>$row[name]</td>
 			<td>
-			<input type=\"button\" class=\"btn btn-default fa fa-search\">
+			<button class=\"btn\">
+				<i class=\"fa fa-search\" aria-hidden=\"true\"></i>
+			</button>
 			</td></tr>";
 		}
 		print "</table>";
