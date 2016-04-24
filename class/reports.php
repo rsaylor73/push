@@ -80,7 +80,7 @@ class Reports {
 		$total_records = $result->num_rows;
 		$total_records = $total_records / 20;
 		$pages = ceil($total_records);
-
+		$url = "index.php?action=reports&type=consumers&page=";
 		if (($pages > 1) && ($_GET['h'] != "n")) {
 			$page = $_GET['page'];
 			if ($page == "") {
@@ -95,7 +95,7 @@ class Reports {
 				} else {
 					$class = "btn-default";
 				}
-				$html .= "<button type=\"button\" class=\"btn $class\">$i2</button>";
+				$html .= "<button type=\"button\" class=\"btn $class\" onclick=\"document.location.href='".$url.$i2."'\">$i2</button>";
 			}
 			$html .= "</div>";
 			print "$html";
