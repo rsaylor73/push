@@ -82,7 +82,7 @@ class Reports {
 		while ($row = $result->fetch_assoc()) {
 			print "<tr><td>$row[registered]</td><td>$row[firstname]</td><td>$row[lastname]</td><td>$row[civility]</td><td>$row[email]</td><td>$row[name]</td>
 			<td>
-			<button class=\"btn\" document.location.href=\"index.php?action=reports&type=viewcustomer&id=$row[customer_id]\">
+			<button class=\"btn\" onclick=\"document.location.href='index.php?action=reports&type=viewcustomer&id=$row[customer_id]'\">
 				<i class=\"fa fa-search\" aria-hidden=\"true\"></i>
 			</button>
 			</td></tr>";
