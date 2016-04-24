@@ -122,6 +122,8 @@ class Reports {
 
 		";
 
+		print "SQL:<br>$sql<br>";
+
 		print "<h3>View Customer</h3>
 		<table class=\"table\">";
 		$result = $this->new_mysql($sql);
