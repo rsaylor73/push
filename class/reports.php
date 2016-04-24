@@ -49,7 +49,36 @@ class Reports {
 		$total_records = $result->num_rows;
 		$total_records = $total_records / $max;
 		$pages = ceil($total_records);
-		if (($pages > 1) && ($_GET['h'] != "n")) {
+
+		if ($pages > 19) {
+			$page = $_GET['page'];
+			if ($page == "") {
+				$page = "1";
+			}
+
+			$html = "<div class=\"btn-group\" role=\"group\" aria-label=\"...\">";
+			$html .= "<button type=\"button\" class=\"btn btn-default\" disabled>Page</button>";
+			if ($page == "1") {
+				$html .= "<button type=\"button\" class=\"btn btn-primary\" onclick=\"document.location.href='".$url.$page."&stop=$max'\">$i2</button>";
+			} else {
+				$pre = $page - 1;
+				$next = $page + 1;
+
+				$html .= "<button type=\"button\" class=\"btn btn-default\" onclick=\"document.location.href='".$url."1&stop=$max'\">1</button>";
+
+				$html .= "<button type=\"button\" class=\"btn btn-default\" onclick=\"document.location.href='".$url.$pre."&stop=$max'\">&lt;&lt;</button>";
+				
+				$html .= "<button type=\"button\" class=\"btn btn-primary\" onclick=\"document.location.href='".$url.$page."&stop=$max'\">$i2</button>";
+
+				$html .= "<button type=\"button\" class=\"btn btn-default\" onclick=\"document.location.href='".$url.$next."&stop=$max'\">&gt;&gt;</button>";
+
+				$html .= "<button type=\"button\" class=\"btn btn-default\" onclick=\"document.location.href='".$url.$pages."&stop=$max'\">$pages</button>";
+
+			}
+
+		}
+
+		if (($pages > 1) && ($_GET['h'] != "n") && ($pages < 20)) {
 			$page = $_GET['page'];
 			if ($page == "") {
 				$page = "1";
@@ -72,8 +101,8 @@ class Reports {
 				$html .= "<button type=\"button\" class=\"btn $class\" onclick=\"document.location.href='".$url.$i2."&stop=$max'\">$i2</button>";
 			}
 			$html .= "</div>";
-			return "$html";
-		}	
+		}
+		return $html;	
 	}
 
 	private function consumers() {
