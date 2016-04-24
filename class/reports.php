@@ -76,7 +76,7 @@ class Reports {
 
 		";
 		if ($_GET['h'] != "n") {
-			print "<h3>Customer</h3>";
+			print "<h3>Registered Users</h3>";
 			print "<i>Click a table heading to sort</i>&nbsp;&nbsp;&nbsp;";
 			print "<button class=\"btn\" onclick=\"window.open('index.php?action=reports&type=consumers&h=n')\">
 			<i class=\"fa fa-download\" aria-hidden=\"true\"></i>
@@ -90,11 +90,11 @@ class Reports {
 		}
 		print "<table class=\"table tablesorter\" id=\"myTable\">";
 		print "<thead>";
-		print "<tr><th><b>Registration</b></th><th><b>First Name</b></th><th><b>Last Name</b></th><th><b>Civility</b></th><th><b>E-mail</b></th><th><b>Application</b></th><th>&nbsp;</th></tr>";
+		print "<tr><th><b>Registration</b></th><th><b>First Name</b></th><th><b>Last Name</b></th><th><b>E-mail</b></th><th><b>Application</b></th><th>&nbsp;</th></tr>";
 		print "</thead><tbody>";
 		$result = $this->new_mysql($sql);
 		while ($row = $result->fetch_assoc()) {
-			print "<tr><td>$row[registered]</td><td>$row[firstname]</td><td>$row[lastname]</td><td>$row[civility]</td><td>$row[email]</td><td>$row[name]</td>
+			print "<tr><td>$row[registered]</td><td>$row[firstname]</td><td>$row[lastname]</td><td>$row[email]</td><td>$row[name]</td>
 			<td>
 			<button class=\"btn\" onclick=\"document.location.href='index.php?action=reports&type=viewcustomer&id=$row[customer_id]'\">
 				<i class=\"fa fa-search\" aria-hidden=\"true\"></i>
@@ -147,7 +147,7 @@ class Reports {
 		";
 
 
-		print "<h3>View Customer</h3>
+		print "<h3>View Registered User</h3>
 		<button class=\"btn\" onclick=\"window.history.go(-1); return false;\">
 			<i class=\"fa fa-backward\" aria-hidden=\"true\"></i>
 		</button>
@@ -158,7 +158,6 @@ class Reports {
 			<tr><td>Registered:</td><td>$row[registered]</td></tr>
 			<tr><td>Firstname:</td><td>$row[firstname]</td></tr>
 			<tr><td>Lastname:</td><td>$row[lastname]</td></tr>
-			<tr><td>Civility:</td><td>$row[civility]</td></tr>
 			<tr><td>E-mail:</td><td><a href=\"mailto:$row[email]\">$row[email]</a></td></tr>
 			<tr><td>Phone:</td><td>$row[phonenumber]</td></tr>
 			<tr><td>Application:</td><td>$row[name]</td></tr>
@@ -211,7 +210,7 @@ class Reports {
 		";
 
 		if ($_GET['h'] != "n") {
-			print "<h3>Loyalty Stamps</h3>";
+			print "<h3>Loyalty Programs</h3>";
 			print "<i>Click a table heading to sort</i>&nbsp;&nbsp;&nbsp;";
 			print "<button class=\"btn\" onclick=\"window.open('index.php?action=reports&type=loyalty_stamps&h=n')\">
 			<i class=\"fa fa-download\" aria-hidden=\"true\"></i>
@@ -290,7 +289,7 @@ class Reports {
 		";	
 
 
-		print "<h3>View Loyalty Stamp</h3>
+		print "<h3>View Loyalty Programs</h3>
 		<button class=\"btn\" onclick=\"window.history.go(-1); return false;\">
 			<i class=\"fa fa-backward\" aria-hidden=\"true\"></i>
 		</button>
@@ -353,7 +352,7 @@ class Reports {
 		";
 
 		if ($_GET['h'] != "n") {
-			print "<h3>Loyalty Awards</h3>";
+			print "<h3>Loyalty Program Detail</h3>";
 			print "<i>Click a table heading to sort</i>&nbsp;&nbsp;&nbsp;";
 			print "<button class=\"btn\" onclick=\"window.open('index.php?action=reports&type=loyalty_awards&h=n')\">
 			<i class=\"fa fa-download\" aria-hidden=\"true\"></i>
@@ -434,7 +433,7 @@ class Reports {
 		ORDER BY `a`.`name` ASC
 		";
 
-		print "<h3>View Loyalty Awards</h3>
+		print "<h3>View Loyalty Program Detail</h3>
 		<button class=\"btn\" onclick=\"window.history.go(-1); return false;\">
 			<i class=\"fa fa-backward\" aria-hidden=\"true\"></i>
 		</button>
