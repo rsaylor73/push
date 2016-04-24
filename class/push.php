@@ -87,7 +87,6 @@ class Push {
 		while ($row = $result->fetch_assoc()) {
 			$api_gcm = $row['api_gcm'];
 		}
-		print " GCM: $api_gcm<br>";
 
 		$data[] = $uuname;
 		$data[] = $uupass;
