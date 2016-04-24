@@ -76,7 +76,7 @@ class Reports {
 
 		";
 		print "<h3>Customer</h3>";
-		print "<i>Click a table heading to sort</i><br>";
+		print "<i>Click a table heading to sort</i>i&nbsp;&nbsp;&nbsp;";
 		print "<button class=\"btn\" onclick=\"window.open('index.php?action=reports&type=consumers&h=n')\">
 			<i class=\"fa fa-download\" aria-hidden=\"true\"></i>
 		</button>
