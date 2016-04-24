@@ -49,7 +49,6 @@ class Reports {
 		$total_records = $result->num_rows;
 		$total_records = $total_records / $max;
 		$pages = ceil($total_records);
-		$url = "index.php?action=reports&type=consumers&page=";
 		if (($pages > 1) && ($_GET['h'] != "n")) {
 			$page = $_GET['page'];
 			if ($page == "") {
