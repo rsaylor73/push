@@ -76,8 +76,10 @@ class Reports {
 
 		";
 		print "<h3>Customer</h3>";
-		print "<table class=\"table\">";
-		print "<tr><td><b>Registration</b></td><td><b>First Name</b></td><td><b>Last Name</b></td><td><b>Civility</b></td><td><b>E-mail</b></td><td><b>Application</b></td><td>&nbsp;</td></tr>";
+		print "<table class=\"table tablesorter\" id=\"myTable\">";
+		print "<thead>";
+		print "<tr><th><b>Registration</b></th><th><b>First Name</b></th><th><b>Last Name</b></th><th><b>Civility</b></th><th><b>E-mail</b></th><th><b>Application</b></th><th>&nbsp;</th></tr>";
+		print "</thead><tbody>";
 		$result = $this->new_mysql($sql);
 		while ($row = $result->fetch_assoc()) {
 			print "<tr><td>$row[registered]</td><td>$row[firstname]</td><td>$row[lastname]</td><td>$row[civility]</td><td>$row[email]</td><td>$row[name]</td>
@@ -87,7 +89,16 @@ class Reports {
 			</button>
 			</td></tr>";
 		}
-		print "</table>";
+		print "</tbody></table>";
+
+		?>
+		<script>
+		$(document).ready(function() { 
+        	$("#myTable").tablesorter(); 
+    	} 
+		); 
+		</script>
+		<?php
 	}
 
 	private function viewcustomer() {
