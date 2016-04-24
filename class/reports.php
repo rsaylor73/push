@@ -75,6 +75,7 @@ class Reports {
 				$html .= "<button type=\"button\" class=\"btn btn-default\" onclick=\"document.location.href='".$url.$pages."&stop=$max'\">$pages</button>";
 
 			}
+			$html .= "</div>";
 
 		}
 
