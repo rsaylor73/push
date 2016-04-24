@@ -64,7 +64,9 @@ class Reports {
 				} else {
 					$class = "btn-default";
 				}
-				$stop = "0";
+				if ($stop == "") {
+					$stop = "0";
+				}
 				if ($i > 0) {
 					$stop = $stop + $max;
 				}
@@ -115,8 +117,12 @@ class Reports {
 		if ($_GET['h'] != "n") {
 
 
-
-			$sql .= "LIMIT 0,20";
+			if ($_GET['stop'] != "") {
+				$stop = "0";
+			} else {
+				$stop = $_GET['stop'];
+			}
+			$sql .= "LIMIT $stop,20";
 
 			print "$show_pages";
 			print "<h3>Registered Users</h3>";
