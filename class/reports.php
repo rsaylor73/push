@@ -43,6 +43,21 @@ class Reports {
 		}
 	}
 
+	private function map_numbers($max,$pages) {
+
+		for ($i=0; $i < $pages; $i++) {
+			if ($stop == "") {
+				$stop = "0";
+			}
+			if ($i > 0) {
+				$stop = $stop + $max;
+			}
+			$i2 = $i + 1;
+			$array[$i2] = $stop;
+		}
+		return $array;
+	}
+
 	private function page_numbers($sql,$url) {
 		$max = "20";
 		$result = $this->new_mysql($sql);
@@ -61,18 +76,20 @@ class Reports {
 			if ($page == "1") {
 				$html .= "<button type=\"button\" class=\"btn btn-primary\" onclick=\"document.location.href='".$url.$page."&stop=$max'\">$i2</button>";
 			} else {
+				$array = $this->map_numbers($max,$pages);
+
 				$pre = $page - 1;
 				$next = $page + 1;
 
-				$html .= "<button type=\"button\" class=\"btn btn-default\" onclick=\"document.location.href='".$url."1&stop=$max'\">1</button>";
+				$html .= "<button type=\"button\" class=\"btn btn-default\" onclick=\"document.location.href='".$url."1&stop=0'\">1</button>";
 
-				$html .= "<button type=\"button\" class=\"btn btn-default\" onclick=\"document.location.href='".$url.$pre."&stop=$max'\">&lt;&lt;</button>";
+				$html .= "<button type=\"button\" class=\"btn btn-default\" onclick=\"document.location.href='".$url.$pre."&stop=$array[$pre]'\">&lt;&lt;</button>";
 				
-				$html .= "<button type=\"button\" class=\"btn btn-primary\" onclick=\"document.location.href='".$url.$page."&stop=$max'\">$page</button>";
+				$html .= "<button type=\"button\" class=\"btn btn-primary\" onclick=\"document.location.href='".$url.$page."&stop=$array[$page]'\">$page</button>";
 
-				$html .= "<button type=\"button\" class=\"btn btn-default\" onclick=\"document.location.href='".$url.$next."&stop=$max'\">&gt;&gt;</button>";
+				$html .= "<button type=\"button\" class=\"btn btn-default\" onclick=\"document.location.href='".$url.$next."&stop=$array[$next]'\">&gt;&gt;</button>";
 
-				$html .= "<button type=\"button\" class=\"btn btn-default\" onclick=\"document.location.href='".$url.$pages."&stop=$max'\">$pages</button>";
+				$html .= "<button type=\"button\" class=\"btn btn-default\" onclick=\"document.location.href='".$url.$pages."&stop=$array[$pages]'\">$pages</button>";
 
 			}
 			$html .= "</div>";
