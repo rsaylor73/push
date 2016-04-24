@@ -87,10 +87,15 @@ class Reports {
 				$page = "1";
 			}
 			$html = "<div class=\"btn-group\" role=\"group\" aria-label=\"...\">";
-			$html .= "<button type=\"button\" class=\"btn btn-default\" disabled\">Page</button>";
+			$html .= "<button type=\"button\" class=\"btn btn-default\" disabled>Page</button>";
 			for ($i=0; $i < $pages; $i++) {
 				$i2 = $i + 1;
-				$html .= "<button type=\"button\" class=\"btn btn-default\">$i2</button>";
+				if ($i2 == $page) {
+					$class = "btn-primary";
+				} else {
+					$class = "btn-default";
+				}
+				$html .= "<button type=\"button\" class=\"btn $class\">$i2</button>";
 			}
 			$html .= "</div>";
 			print "$html";
