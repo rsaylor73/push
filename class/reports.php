@@ -185,7 +185,8 @@ class Reports {
 			`c`.`lastname`,
 			`c`.`email`,
 			`lc`.`name` AS 'card_name',
-			`lc`.`created_at`
+			`lc`.`created_at`,
+			`lc`.`card_id`
 
 
 
@@ -208,14 +209,84 @@ class Reports {
 		ORDER BY `a`.`name` ASC
 		";
 
-		print "<h3>Loyalty Stamps</h3>";
-		print "<table class=\"table\">";
-		print "<tr><td>Created</td><td>Application</td><td>Employee</td><td>Points</td><td>First Name</td><td>Last Name</td><td>Email</td><td>Card Name</td></tr>";
+		if ($_GET['h'] != "n") {
+			print "<h3>Loyalty Stamps</h3>";
+			print "<i>Click a table heading to sort</i>&nbsp;&nbsp;&nbsp;";
+			print "<button class=\"btn\" onclick=\"window.open('index.php?action=reports&type=loyalty_stamps&h=n')\">
+			<i class=\"fa fa-download\" aria-hidden=\"true\"></i>
+			</button>
+			";
+		} else {
+			header("Content-type: text/csv");
+			header("Content-Disposition: attachment; filename=layalty.csv");
+			header("Pragma: no-cache");
+			header("Expires: 0");
+		}
+
+		print "<table class=\"table tablesorter\" id=\"myTable\">";
+		print "<thead>";
+		print "<tr><th>Created</th><th>Application</th><th>Employee</th><th>Points</th><th>First Name</th><th>Last Name</th><th>Email</th><th>Card Name</th><th></th></tr>
+		</thead><tbody>";
 		$result = $this->new_mysql($sql);
 		while ($row = $result->fetch_assoc()) {
-			print "<tr><td>$row[created_at]</td><td>$row[app_name]</td><td>$row[employee]</td><td>$row[number_of_points]</td><td>$row[firstname]</td><td>$row[lastname]</td><td>$row[email]</td><td>$row[card_name]</td></tr>";
+			print "<tr><td>$row[created_at]</td><td>$row[app_name]</td><td>$row[employee]</td><td>$row[number_of_points]</td><td>$row[firstname]</td><td>$row[lastname]</td>
+			<td>$row[email]</td><td>$row[card_name]</td><td>
+			<button class=\"btn\" onclick=\"document.location.href='index.php?action=reports&type=loyalty_stamps_view&id=$row[card_id]'\">
+				<i class=\"fa fa-search\" aria-hidden=\"true\"></i>
+			</button></td></tr>";
 		}
-		print "</table>";
+		print "</tbody></table>";
+		if ($_GET['h'] != "n") {
+		?>
+		<script>
+		$(document).ready(function() { 
+        	$("#myTable").tablesorter(); 
+    	} 
+		); 
+		</script>
+		<?php
+		}
+	}
+
+	private function loyalty_stamps_view() {
+
+		$DB = $this->get_proper_db('1');
+
+		if ($_SESSION['app_id'] != "") {
+			$app_id = "AND `a`.`app_id` = '$_SESSION[app_id]'";
+		}
+
+		$sql = "
+		SELECT
+			`a`.`name` AS 'app_name',
+			`lcp`.`name` AS 'employee',
+			`lc`.`number_of_points`,
+			`c`.`firstname`,
+			`c`.`lastname`,
+			`c`.`email`,
+			`lc`.`name` AS 'card_name',
+			`lc`.`created_at`
+
+
+
+		FROM
+			".$DB.".`loyalty_card` lc,
+			".$DB.".`loyalty_card_customer_log` lccl,
+			".$DB.".`loyalty_card_password` lcp,
+			".$DB.".`application` a,
+			".$DB.".`customer` c
+
+		WHERE
+			`lc`.`card_id` = `lccl`.`card_id`
+			AND `lccl`.`password_id` = `lcp`.`password_id`
+			AND `lcp`.`app_id` = `a`.`app_id`
+			$app_id
+			AND `lccl`.`customer_id` = `c`.`customer_id`
+
+		GROUP BY `lccl`.`customer_id`
+
+		ORDER BY `a`.`name` ASC
+		";	
 	}
 
 	private function loyalty_awards() {
