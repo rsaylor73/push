@@ -79,11 +79,21 @@ class Reports {
 				$array = $this->map_numbers($max,$pages);
 
 				$pre = $page - 1;
+				$pre10 = $page - 10;
+				$pre100 = $page - 100;
 				$next = $page + 1;
 				$next10 = $page + 10;
 				$next100 = $page + 100;
 
 				$html .= "<button type=\"button\" class=\"btn btn-default\" onclick=\"document.location.href='".$url."1&stop=0'\">1</button>";
+
+				if ($pre10 > 0) {
+					$html .= "<button type=\"button\" class=\"btn btn-default\" onclick=\"document.location.href='".$url.$pre10."&stop=$array[$pre10]'\">- 10</button>";
+				}
+
+				if ($pre100 > 0) {
+					$html .= "<button type=\"button\" class=\"btn btn-default\" onclick=\"document.location.href='".$url.$pre100."&stop=$array[$pre100]'\">- 100</button>";
+				}
 
 				$html .= "<button type=\"button\" class=\"btn btn-default\" onclick=\"document.location.href='".$url.$pre."&stop=$array[$pre]'\">&lt;&lt;</button>";
 				
