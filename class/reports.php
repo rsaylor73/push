@@ -857,7 +857,19 @@ class Reports {
 
 		";
 
+		// page numbers
+		$url = "index.php?action=reports&type=log&page=";
+		$show_pages = $this->page_numbers($sql,$url);
+
 		if ($_GET['h'] != "n") {
+			if ($_GET['stop'] == "") {
+				$stop = "0";
+			} else {
+				$stop = $_GET['stop'];
+			}
+			$sql .= "LIMIT $stop,20";
+
+			print "$show_pages";
 			print "<h3>Log</h3>";
 			print "<i>Click a table heading to sort</i>&nbsp;&nbsp;&nbsp;";
 			print "<button class=\"btn\" onclick=\"window.open('index.php?action=reports&type=log&h=n')\">
