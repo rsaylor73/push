@@ -44,9 +44,10 @@ class Reports {
 	}
 
 	private function page_numbers($sql,$url) {
+		$max = "20";
 		$result = $this->new_mysql($sql);
 		$total_records = $result->num_rows;
-		$total_records = $total_records / 20;
+		$total_records = $total_records / $max;
 		$pages = ceil($total_records);
 		$url = "index.php?action=reports&type=consumers&page=";
 		if (($pages > 1) && ($_GET['h'] != "n")) {
@@ -63,7 +64,11 @@ class Reports {
 				} else {
 					$class = "btn-default";
 				}
-				$html .= "<button type=\"button\" class=\"btn $class\" onclick=\"document.location.href='".$url.$i2."'\">$i2</button>";
+				$stop = "0";
+				if ($i > 0) {
+					$stop = $stop + $max;
+				}
+				$html .= "<button type=\"button\" class=\"btn $class\" onclick=\"document.location.href='".$url.$i2."&stop=$max'\">$i2</button>";
 			}
 			$html .= "</div>";
 			return "$html";
@@ -108,6 +113,9 @@ class Reports {
 		$show_pages = $this->page_numbers($sql,$url);
 
 		if ($_GET['h'] != "n") {
+
+
+
 			$sql .= "LIMIT 0,20";
 
 			print "$show_pages";
