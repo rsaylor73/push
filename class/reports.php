@@ -72,6 +72,7 @@ class Reports {
 			`c`.`app_id` = `a`.`app_id`
 			$app_id
 
+		ORDER BY `a`.`name` ASC
 
 		";
 		print "<h3>Customer</h3>";
@@ -118,8 +119,6 @@ class Reports {
 			`c`.`customer_id` = '$_GET[id]'
 			`c`.`app_id` = `a`.`app_id`
 			$app_id
-
-		ORDER BY `a`.`name` ASC
 
 		";
 
