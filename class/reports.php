@@ -237,8 +237,6 @@ class Reports {
 			`lc`.`card_id`,
 			`c`.`customer_id`
 
-
-
 		FROM
 			".$DB.".`loyalty_card` lc,
 			".$DB.".`loyalty_card_customer_log` lccl,
@@ -258,7 +256,19 @@ class Reports {
 		ORDER BY `a`.`name` ASC
 		";
 
+		// page numbers
+		$url = "index.php?action=reports&type=loyalty_stamps&page=";
+		$show_pages = $this->page_numbers($sql,$url);
+
 		if ($_GET['h'] != "n") {
+			if ($_GET['stop'] == "") {
+				$stop = "0";
+			} else {
+				$stop = $_GET['stop'];
+			}
+			$sql .= "LIMIT $stop,20";
+
+			print "$show_pages";
 			print "<h3>Loyalty Programs</h3>";
 			print "<i>Click a table heading to sort</i>&nbsp;&nbsp;&nbsp;";
 			print "<button class=\"btn\" onclick=\"window.open('index.php?action=reports&type=loyalty_stamps&h=n')\">
