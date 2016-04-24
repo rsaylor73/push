@@ -329,7 +329,8 @@ class Reports {
 			`a`.`name`,
 			`lcp`.`name` AS 'employee',
 			SUM(`lccl`.`number_of_points`) AS 'points',
-			`lc`.`name` AS 'card_name'
+			`lc`.`name` AS 'card_name',
+			`c`.`customer_id`
 
 
 		FROM
@@ -351,18 +352,110 @@ class Reports {
 		ORDER BY `a`.`name` ASC
 		";
 
-		print "<h3>Loyalty Awards</h3>";
-		print "<table class=\"table\">
-		<tr><td>Last Used</td><td>Points</td><td>Firstname</td><td>Lastname</td><td>E-mail</td><td>Application</td><td>Card Name</td><td>Employee</td></tr>";
-
+		if ($_GET['h'] != "n") {
+			print "<h3>Loyalty Awards</h3>";
+			print "<i>Click a table heading to sort</i>&nbsp;&nbsp;&nbsp;";
+			print "<button class=\"btn\" onclick=\"window.open('index.php?action=reports&type=loyalty_awards&h=n')\">
+			<i class=\"fa fa-download\" aria-hidden=\"true\"></i>
+			</button>
+			";
+		} else {
+			header("Content-type: text/csv");
+			header("Content-Disposition: attachment; filename=layalty.csv");
+			header("Pragma: no-cache");
+			header("Expires: 0");
+		}
+		print "<table class=\"table tablesorter\" id=\"myTable\">";
+		print "<thead>
+		<tr><th>Last Used</th><th>Points</th><th>Firstname</th><th>Lastname</th><th>E-mail</th><th>Application</th><th>Card Name</th><th>Employee</th></tr>";
+		print "<tbody>";
 		$result = $this->new_mysql($sql);
 		while ($row = $result->fetch_assoc()) {
 			print "<tr><td>$row[created_at]</td><td>$row[points]</td><td>$row[firstname]</td><td>$row[lastname]</td><td>$row[email]</td>
-			<td>$row[name]</td><td>$row[card_name]</td><td>$row[employee]</td></tr>";
+			<td>$row[name]</td><td>$row[card_name]</td><td>$row[employee]</td>
+			<td>
+			<button class=\"btn\" onclick=\"document.location.href='index.php?action=reports&type=loyalty_awards_view&id=$row[customer_id]'\">
+				<i class=\"fa fa-search\" aria-hidden=\"true\"></i>
+			</button>
+			</td>
+			</tr>";
+		}
+		print "</tbody>";
+		print "</table>";
+
+		if ($_GET['h'] != "n") {
+		?>
+		<script>
+		$(document).ready(function() { 
+        	$("#myTable").tablesorter(); 
+    	} 
+		); 
+		</script>
+		<?php
+		}
+	}
+
+	private function loyalty_awards_view() {
+		$DB = $this->get_proper_db('1');
+
+		if ($_SESSION['app_id'] != "") {
+			$app_id = "AND `a`.`app_id` = '$_SESSION[app_id]'";
+		}
+
+		$sql = "
+		SELECT
+			`lccl`.`created_at` AS 'created_at',
+			`lccl`.`customer_id`,
+			`c`.`firstname`,
+			`c`.`lastname`,
+			`c`.`email`,
+			`a`.`name`,
+			`lcp`.`name` AS 'employee',
+			`lccl`.`number_of_points` AS 'points',
+			`lc`.`name` AS 'card_name',
+			`c`.`customer_id`
+
+
+		FROM
+			".$DB.".`loyalty_card_customer_log` lccl,
+			".$DB.".`loyalty_card` lc,
+			".$DB.".`customer` c,
+			".$DB.".`application` a,
+			".$DB.".`loyalty_card_password` lcp
+
+		WHERE
+			`lccl`.`card_id` = `lc`.`card_id`
+			AND `lccl`.`customer_id` = '$_GET[id]'
+			AND `lccl`.`customer_id` = `c`.`customer_id`
+			AND `c`.`app_id` = `a`.`app_id`
+			$app_id
+			AND `lccl`.`password_id` = `lcp`.`password_id`
+
+		ORDER BY `a`.`name` ASC
+		";
+
+		print "<h3>View Loyalty Awards</h3>
+		<button class=\"btn\" onclick=\"window.history.go(-1); return false;\">
+			<i class=\"fa fa-backward\" aria-hidden=\"true\"></i>
+		</button>
+		<table class=\"table\">";
+		$result = $this->new_mysql($sql);
+		while ($row = $result->fetch_assoc()) {
+			print "
+			<tr><td>Last Used:</td><td>$row[created_at]</td></tr>
+			<tr><td>Points:</td><td>$row[points]</td></tr>
+			<tr><td>Firstname:</td><td>$row[firstname]</td></tr>
+			<tr><td>Lastname:</td><td>$row[lastname]</td></tr>
+			<tr><td>E-mail:</td><td><a href=\"mailto:$row[email]\">$row[email]</a></td></tr>
+			<tr><td>Application:</td><td>$row[name]</td></tr>
+			<tr><td>Employee:</td><td>$row[employee]</td></tr>
+			<tr><td>Card Name:</td><td>$row[card_name]</td></tr>
+			<tr><td colspan=2><hr></td></tr>
+
+			";
 		}
 		print "</table>";
 	}
-
 
 	private function coupon() {
 
