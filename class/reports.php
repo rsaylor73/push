@@ -232,7 +232,7 @@ class Reports {
 			</button>
 			";
 		} else {
-			$this->meta_data('registeredusers.xls');
+			$this->meta_data('registeredusers.csv');
 		}
 		if ($_GET['h'] != "n") {
 			print "<table class=\"table tablesorter\" id=\"myTable\">";
