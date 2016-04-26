@@ -153,10 +153,12 @@ class Reports {
 		header("Expires: 0");
 		*/
 
+		/*
         header("Content-type: application/vnd.ms-excel");
         header("Content-Disposition:inline;filename=".$filename;
 		header("Pragma: no-cache");
 		header("Expires: 0");
+		*/
 	}
 
 	private function consumers() {
