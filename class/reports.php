@@ -154,7 +154,8 @@ class Reports {
 		*/
 
 		
-        header("Content-type: application/vnd.ms-excel");
+        //header("Content-type: application/vnd.ms-excel");
+        header("Content-type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         header("Content-Disposition:inline;filename=".$filename);
 		header("Pragma: no-cache");
 		header("Expires: 0");
@@ -216,7 +217,7 @@ class Reports {
 			</button>
 			";
 		} else {
-			$this->meta_data('registeredusers.csv');
+			$this->meta_data('registeredusers.xls');
 		}
 		print "<table class=\"table tablesorter\" id=\"myTable\">";
 		print "<thead>";
