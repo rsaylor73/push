@@ -165,7 +165,6 @@ class Reports {
 		*/
 
 
-		header('Content-Description: File Transfer');
 		//header('Content-Type: application/octet-stream');
 		header("Content-type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 		header('Content-Disposition: attachment; filename=export.csv');
@@ -173,7 +172,6 @@ class Reports {
 		header('Expires: 0');
 		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 		header('Pragma: public');
-		echo "\xEF\xBB\xBF"; // UTF-8 BOM
 
 		
 	}
