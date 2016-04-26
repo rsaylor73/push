@@ -166,8 +166,9 @@ class Reports {
 
 
 		header('Content-Description: File Transfer');
-		header('Content-Type: application/octet-stream');
-		header('Content-Disposition: attachment; filename=file.csv');
+		//header('Content-Type: application/octet-stream');
+		header("Content-type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+		header('Content-Disposition: attachment; filename=export.csv');
 		header('Content-Transfer-Encoding: binary');
 		header('Expires: 0');
 		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
