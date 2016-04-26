@@ -145,6 +145,20 @@ class Reports {
 		return $html;	
 	}
 
+	private function meta_data($filename) {
+		/*
+		header("Content-type: text/csv");
+		header("Content-Disposition: attachment; filename=consumers.csv");
+		header("Pragma: no-cache");
+		header("Expires: 0");
+		*/
+
+        header("Content-type: application/vnd.ms-excel");
+        header("Content-Disposition:inline;filename=".$filename;
+		header("Pragma: no-cache");
+		header("Expires: 0");
+	}
+
 	private function consumers() {
 		$this->check_report_access();
 
@@ -200,10 +214,7 @@ class Reports {
 			</button>
 			";
 		} else {
-			header("Content-type: text/csv");
-			header("Content-Disposition: attachment; filename=consumers.csv");
-			header("Pragma: no-cache");
-			header("Expires: 0");
+			$this->meta_data('consumers.csv');
 		}
 		print "<table class=\"table tablesorter\" id=\"myTable\">";
 		print "<thead>";
