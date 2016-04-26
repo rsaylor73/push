@@ -216,7 +216,7 @@ class Reports {
 			</button>
 			";
 		} else {
-			$this->meta_data('consumers.csv');
+			$this->meta_data('registeredusers.csv');
 		}
 		print "<table class=\"table tablesorter\" id=\"myTable\">";
 		print "<thead>";
@@ -357,10 +357,7 @@ class Reports {
 			</button>
 			";
 		} else {
-			header("Content-type: text/csv");
-			header("Content-Disposition: attachment; filename=layalty.csv");
-			header("Pragma: no-cache");
-			header("Expires: 0");
+			$this->meta_data('layaltyprogram.csv');
 		}
 
 		print "<table class=\"table tablesorter\" id=\"myTable\">";
@@ -511,10 +508,7 @@ class Reports {
 			</button>
 			";
 		} else {
-			header("Content-type: text/csv");
-			header("Content-Disposition: attachment; filename=layalty.csv");
-			header("Pragma: no-cache");
-			header("Expires: 0");
+			$this->meta_data('layaltyprogramdetails.csv');
 		}
 		print "<table class=\"table tablesorter\" id=\"myTable\">";
 		print "<thead>
@@ -663,10 +657,7 @@ class Reports {
 			</button>
 			";
 		} else {
-			header("Content-type: text/csv");
-			header("Content-Disposition: attachment; filename=coupon.csv");
-			header("Pragma: no-cache");
-			header("Expires: 0");
+			$this->meta_data('coupons.csv');
 		}
 		print "<table class=\"table tablesorter\" id=\"myTable\">";
 		print "<thead>
@@ -811,10 +802,7 @@ class Reports {
 			</button>
 			";
 		} else {
-			header("Content-type: text/csv");
-			header("Content-Disposition: attachment; filename=ecommerce.csv");
-			header("Pragma: no-cache");
-			header("Expires: 0");
+			$this->meta_data('ecommerce.csv');
 		}
 		print "<table class=\"table tablesorter\" id=\"myTable\">";
 		print "<thead>		
@@ -959,10 +947,7 @@ class Reports {
 			</button>
 			";
 		} else {
-			header("Content-type: text/csv");
-			header("Content-Disposition: attachment; filename=log.csv");
-			header("Pragma: no-cache");
-			header("Expires: 0");
+			$this->meta_data('log.csv');
 		}
 		print "<table class=\"table tablesorter\" id=\"myTable\">";
 		print "<thead>			
