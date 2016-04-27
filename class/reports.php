@@ -75,6 +75,25 @@ class Reports {
 			$html .= "<button type=\"button\" class=\"btn btn-default\" disabled>Page</button>";
 			if ($page == "1") {
 				$html .= "<button type=\"button\" class=\"btn btn-primary\" onclick=\"document.location.href='".$url.$page."&stop=0'\">1</button>";
+				$array = $this->map_numbers($max,$pages);
+				$next = $page + 1;
+				$next10 = $page + 10;
+				$next100 = $page + 100;
+
+				if ($next < $pages) {
+					$html .= "<button type=\"button\" class=\"btn btn-default\" onclick=\"document.location.href='".$url.$next."&stop=$array[$next]'\">&gt;&gt;</button>";
+				}
+
+				if ($next10 < $pages) {
+					$html .= "<button type=\"button\" class=\"btn btn-default\" onclick=\"document.location.href='".$url.$next10."&stop=$array[$next10]'\">+ 10</button>";
+				}
+
+				if ($next100 < $pages) {
+					$html .= "<button type=\"button\" class=\"btn btn-default\" onclick=\"document.location.href='".$url.$next100."&stop=$array[$next100]'\">+ 100</button>";
+				}
+
+				$html .= "<button type=\"button\" class=\"btn btn-default\" onclick=\"document.location.href='".$url.$pages."&stop=$array[$pages]'\">$pages</button>";
+
 			} else {
 				$array = $this->map_numbers($max,$pages);
 
