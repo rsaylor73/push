@@ -65,7 +65,6 @@ class Reports {
 		$total_records = $total_records / $max;
 		$pages = ceil($total_records);
 
-		if ($pages > 19) {
 			$page = $_GET['page'];
 			if ($page == "") {
 				$page = "1";
@@ -135,8 +134,8 @@ class Reports {
 			}
 			$html .= "</div>";
 
-		}
-
+		
+		/*
 		if (($pages > 1) && ($_GET['h'] != "n") && ($pages < 20)) {
 			$page = $_GET['page'];
 			if ($page == "") {
@@ -161,6 +160,7 @@ class Reports {
 			}
 			$html .= "</div>";
 		}
+		*/
 		return $html;	
 	}
 
