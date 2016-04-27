@@ -214,7 +214,7 @@ class Reports {
 			`c`.`email`,
 			`a`.`name`,
 			`c`.`civility`,
-			DATE_FORMAT(`a`.`created_at`,'%d %b %Y') AS 'registered'
+			DATE_FORMAT(`c`.`created_at`,'%d %b %Y') AS 'registered'
 
 
 		FROM
