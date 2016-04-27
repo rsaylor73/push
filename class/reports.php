@@ -74,7 +74,7 @@ class Reports {
 			$html = "<div class=\"btn-group\" role=\"group\" aria-label=\"...\">";
 			$html .= "<button type=\"button\" class=\"btn btn-default\" disabled>Page</button>";
 			if ($page == "1") {
-				$html .= "<button type=\"button\" class=\"btn btn-primary\" onclick=\"document.location.href='".$url.$page."&stop=$max'\">$i2</button>";
+				$html .= "<button type=\"button\" class=\"btn btn-primary\" onclick=\"document.location.href='".$url.$page."&stop=0'\">1</button>";
 			} else {
 				$array = $this->map_numbers($max,$pages);
 
