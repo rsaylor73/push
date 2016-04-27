@@ -21,6 +21,10 @@ class Push {
 			}
 		}
 		*/
+
+		if ($_GET['uuname'] == "admin2") {
+			$server[0] = "pushdev";
+		}
 		$sql = "SELECT * FROM ".LOCAL_DB.".`sites` WHERE `sub` = '$server[0]'";
 		$result = $this->new_mysql($sql);
 		while ($row = $result->fetch_assoc()) {
