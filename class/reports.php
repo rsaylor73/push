@@ -1011,10 +1011,14 @@ class Reports {
 		} else {
 			$this->meta_data('log.csv');
 		}
-		print "<table class=\"table tablesorter\" id=\"myTable\">";
-		print "<thead>			
-		<tr><th>Visited</th><th>IP</th><th>Application</th><th>Device</th><th>Firstname</th><th>Lastname</th><th>E-mail</th><th></th></tr>
-		<tbody>";
+		if ($_GET['h'] != "n") {
+			print "<table class=\"table tablesorter\" id=\"myTable\">";
+			print "<thead>			
+			<tr><th>Visited</th><th>IP</th><th>Application</th><th>Device</th><th>Firstname</th><th>Lastname</th><th>E-mail</th><th></th></tr>
+			<tbody>";
+		} else {
+			print "Visited,IP,Application,Device,Firstname,Lastname,E-mail\r";
+		}
 		$result = $this->new_mysql($sql);
 		while ($row = $result->fetch_assoc()) {
 			if ($row['customer_id'] != "") {
@@ -1041,16 +1045,21 @@ class Reports {
 					$email = $row2['email'];
 				}
 			}
-			print "<tr><td>$row[visited_at]</td><td>$row[remote_addr]</td><td>$row[app_name]</td><td>$row[device_name]</td><td>$firstname</td><td>$lastname</td><td>$email</td>
-			<td>
-			<button class=\"btn\" onclick=\"document.location.href='index.php?action=reports&type=log_view&id=$row[log_id]'\">
+			if ($_GET['h'] != "n") {
+				print "<tr><td>$row[visited_at]</td><td>$row[remote_addr]</td><td>$row[app_name]</td><td>$row[device_name]</td><td>$firstname</td><td>$lastname</td><td>$email</td>
+				<td>
+				<button class=\"btn\" onclick=\"document.location.href='index.php?action=reports&type=log_view&id=$row[log_id]'\">
 				<i class=\"fa fa-search\" aria-hidden=\"true\"></i>
-			</button>
-			</td>
-			</tr>";
+				</button>
+				</td>
+				</tr>";
+			} else {
+				print "$row[visited_at],$row[remote_addr],$row[app_name],$row[device_name],$row[firstname],$row[lastname],$row[email]\r";
+			}
 		}
-		print "</tbody></table>";
-
+		if ($_GET['h'] != "n") {
+			print "</tbody></table>";
+		}
 		if ($_GET['h'] != "n") {
 		?>
 		<script>
