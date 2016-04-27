@@ -704,22 +704,31 @@ class Reports {
 		} else {
 			$this->meta_data('coupons.csv');
 		}
-		print "<table class=\"table tablesorter\" id=\"myTable\">";
-		print "<thead>
-		<tr><th>Used</th><th>Coupon Name</th><th>Description</th><th>Firstname</th><th>Lastname</th><th>E-mail</th><th>Application</th><th></th></tr>
-		<tbody>";
+		if ($_GET['h'] != "n") {
+			print "<table class=\"table tablesorter\" id=\"myTable\">";
+			print "<thead>
+			<tr><th>Used</th><th>Coupon Name</th><th>Description</th><th>Firstname</th><th>Lastname</th><th>E-mail</th><th>Application</th><th></th></tr>
+			<tbody>";
+		} else {
+			print "Used,Coupon Name,Description,Firstname,Lastname,E-mail,Application\r";
+		}
 		$result = $this->new_mysql($sql);
 		while ($row = $result->fetch_assoc()) {
-			print "<tr><td>$row[used]</td><td>$row[title]</td><td>$row[description]</td><td>$row[firstname]</td><td>$row[lastname]</td><td>$row[email]</td><td>$row[name]</td>
-			<td>
-			<button class=\"btn\" onclick=\"document.location.href='index.php?action=reports&type=coupon_view&id=$row[customer_id]'\">
+			if ($_GET['h'] != "n") {
+				print "<tr><td>$row[used]</td><td>$row[title]</td><td>$row[description]</td><td>$row[firstname]</td><td>$row[lastname]</td><td>$row[email]</td><td>$row[name]</td>
+				<td>
+				<button class=\"btn\" onclick=\"document.location.href='index.php?action=reports&type=coupon_view&id=$row[customer_id]'\">
 				<i class=\"fa fa-search\" aria-hidden=\"true\"></i>
-			</button>
-			</td>
-			</tr>";
+				</button>
+				</td>
+				</tr>";
+			} else {
+				print "$row[used],$row[title],$row[description],$row[firstname],$row[lastname],$row[email],$row[name]\r";
+			}
 		}
-		print "</tbody></table>";
-
+		if ($_GET['h'] != "n") {
+			print "</tbody></table>";
+		}
 		if ($_GET['h'] != "n") {
 		?>
 		<script>
