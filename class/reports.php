@@ -858,24 +858,32 @@ class Reports {
 		} else {
 			$this->meta_data('ecommerce.csv');
 		}
-		print "<table class=\"table tablesorter\" id=\"myTable\">";
-		print "<thead>		
-		<tr><th>Date</th><th>Number</th><th>Payment Method</th><th>Delivery Method</th><th>Firstname</th><th>Lastname</th><th>Phone</th><th>Total</th><th>Application</th><th></th></tr>
-		<tbody>";
-
+		if ($_GET['h'] != "n") {
+			print "<table class=\"table tablesorter\" id=\"myTable\">";
+			print "<thead>		
+			<tr><th>Date</th><th>Number</th><th>Payment Method</th><th>Delivery Method</th><th>Firstname</th><th>Lastname</th><th>Phone</th><th>Total</th><th>Application</th><th></th></tr>
+			<tbody>";
+		} else {
+			print "Date,Number,Payment Method,Delivery Method,Firstname,Lastname,Phone,Total,Application\r";
+		}
 		$result = $this->new_mysql($sql);
 		while ($row = $result->fetch_assoc()) {
-			print "<tr><td>$row[created_at]</td><td>$row[number]</td><td>$row[payment_method]</td><td>$row[delivery_method]</td><td>$row[customer_firstname]</td><td>$row[customer_lastname]</td>
-			<td>$row[customer_phone]</td><td>$row[total]</td><td>$row[app_name]</td>
-			<td>
-			<button class=\"btn\" onclick=\"document.location.href='index.php?action=reports&type=ecommerce_view&id=$row[mcommerce_id]&n=$row[number]'\">
+			if ($_GET['h'] != "n") {
+				print "<tr><td>$row[created_at]</td><td>$row[number]</td><td>$row[payment_method]</td><td>$row[delivery_method]</td><td>$row[customer_firstname]</td><td>$row[customer_lastname]</td>
+				<td>$row[customer_phone]</td><td>$row[total]</td><td>$row[app_name]</td>
+				<td>
+				<button class=\"btn\" onclick=\"document.location.href='index.php?action=reports&type=ecommerce_view&id=$row[mcommerce_id]&n=$row[number]'\">
 				<i class=\"fa fa-search\" aria-hidden=\"true\"></i>
-			</button>
-			</td>
-			</tr>";
+				</button>
+				</td>
+				</tr>";
+			} else {
+				print "$row[created_at],$row[number],$row[payment_method],$row[delivery_method],$row[customer_firstname],$row[customer_lastname],$row[customer_phone],$row[total],$row[app_name]\r";
+			}
 		}
-		print "</tbody></table>";
-
+		if ($_GET['h'] != "n") {
+			print "</tbody></table>";
+		}
 		if ($_GET['h'] != "n") {
 		?>
 		<script>
