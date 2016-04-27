@@ -408,7 +408,7 @@ class Reports {
 		if ($_GET['h'] != "n") {
 			print "</tbody></table>";
 		}
-		
+
 		if ($_GET['h'] != "n") {
 		?>
 		<script>
@@ -546,24 +546,33 @@ class Reports {
 		} else {
 			$this->meta_data('layaltyprogramdetails.csv');
 		}
-		print "<table class=\"table tablesorter\" id=\"myTable\">";
-		print "<thead>
-		<tr><th>Last Used</th><th>Points</th><th>Firstname</th><th>Lastname</th><th>E-mail</th><th>Application</th><th>Card Name</th><th>Employee</th><th></th></tr>";
-		print "<tbody>";
+		if ($_GET['h'] != "n") {
+			print "<table class=\"table tablesorter\" id=\"myTable\">";
+			print "<thead>
+			<tr><th>Last Used</th><th>Points</th><th>Firstname</th><th>Lastname</th><th>E-mail</th><th>Application</th><th>Card Name</th><th>Employee</th><th></th></tr>";
+			print "<tbody>";
+		} else {
+			print "Last Used,Points,Firstname,Lastname,E-mail,Application,Card Name,Employee\r";
+		}
 		$result = $this->new_mysql($sql);
 		while ($row = $result->fetch_assoc()) {
-			print "<tr><td>$row[created_at]</td><td>$row[points]</td><td>$row[firstname]</td><td>$row[lastname]</td><td>$row[email]</td>
-			<td>$row[name]</td><td>$row[card_name]</td><td>$row[employee]</td>
-			<td>
-			<button class=\"btn\" onclick=\"document.location.href='index.php?action=reports&type=loyalty_awards_view&id=$row[customer_id]'\">
+			if ($_GET['h'] != "n") {
+				print "<tr><td>$row[created_at]</td><td>$row[points]</td><td>$row[firstname]</td><td>$row[lastname]</td><td>$row[email]</td>
+				<td>$row[name]</td><td>$row[card_name]</td><td>$row[employee]</td>
+				<td>
+				<button class=\"btn\" onclick=\"document.location.href='index.php?action=reports&type=loyalty_awards_view&id=$row[customer_id]'\">
 				<i class=\"fa fa-search\" aria-hidden=\"true\"></i>
-			</button>
-			</td>
-			</tr>";
+				</button>
+				</td>
+				</tr>";
+			} else {
+				print "$row[created_at],$row[points],$row[firstname],$row[lastname],$row[email],$row[name],$row[card_name],$row[employee]\r";
+			}
 		}
-		print "</tbody>";
-		print "</table>";
-
+		if ($_GET['h'] != "n") {
+			print "</tbody>";
+			print "</table>";
+		}
 		if ($_GET['h'] != "n") {
 		?>
 		<script>
