@@ -196,6 +196,97 @@ class Reports {
 		
 	}
 
+	private function page_feature() {
+		$this->check_report_access();
+		$DB = $this->get_proper_db('1'); // update TBD
+		if ($_SESSION['app_id'] != "") {
+			$app_id = "AND `a`.`app_id` = '$_SESSION[app_id]'";
+		}
+
+		$sql = "
+		SELECT
+			`cap`.`value_id`,
+			`a`.`name`,
+			`cap`.`title`,
+			`cap`.`content`,
+			`cap`.`created_at`,
+			`cap`.`updated_at`,
+			`cap`.`page_id`
+
+		FROM
+			".$DB.".`cms_application_page` cap, 
+			".$DB.".`application_option_value` cov,
+			".$DB.".`application` a
+
+		WHERE
+			`cap`.`value_id` = `cov`.`value_id`
+			AND `cov`.`app_id` = `a`.`app_id`
+			$app_id
+		";
+
+
+		// page numbers
+		$url = "index.php?action=reports&type=page_feature&page=";
+		$show_pages = $this->page_numbers($sql,$url);
+
+		if ($_GET['h'] != "n") {
+
+
+			if ($_GET['stop'] == "") {
+				$stop = "0";
+			} else {
+				$stop = $_GET['stop'];
+			}
+			$sql .= "LIMIT $stop,20";
+
+			print "$show_pages";
+			print "<h3>Page/Feature</h3>";
+			print "<i>Click a table heading to sort</i>&nbsp;&nbsp;&nbsp;";
+			print "<button class=\"btn\" onclick=\"window.open('index.php?action=reports&type=page_feature&h=n')\">
+			<i class=\"fa fa-download\" aria-hidden=\"true\"></i>
+			</button>
+			";
+		} else {
+			$this->meta_data('page_feature.csv');
+		}
+		if ($_GET['h'] != "n") {
+			print "<table class=\"table tablesorter\" id=\"myTable\">";
+			print "<thead>";
+			print "<tr><th><b>Application</b></th><th><b>Title</b></th><th><b>Content</b></th><th><b>Created At</b></th><th><a>Updated At</a></th><th>&nbsp;</th></tr>";
+			print "</thead><tbody>";
+		} else {
+			print "Application,Title,Content,Created At,Updated At\r";
+		}
+		$result = $this->new_mysql($sql);
+		while ($row = $result->fetch_assoc()) {
+			if ($_GET['h'] != 'n') {
+				print "<tr><td>$row[name]</td><td>$row[title]</td><td>$row[content]</td><td>$row[created_at]</td><td>$row[updated_at]</td>
+				<td>
+				<button class=\"btn\" onclick=\"document.location.href='index.php?action=reports&type=viewpage_feature&id=$row[page_id]'\">
+				<i class=\"fa fa-search\" aria-hidden=\"true\"></i>
+				</button>
+				</td></tr>";
+			} else {
+				print "$row[name],$row[title],$row[content],$row[created_at],$row[updated_at]\r";
+			}
+		}
+		if ($_GET['h'] != "n") {
+			print "</tbody></table>";
+		}
+		if ($_GET['h'] != "n") {
+		?>
+		<script>
+		$(document).ready(function() { 
+        	$("#myTable").tablesorter(); 
+    	} 
+		); 
+		</script>
+		<?php
+		}
+
+
+	}
+
 	private function consumers() {
 		$this->check_report_access();
 
