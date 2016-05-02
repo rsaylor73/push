@@ -254,7 +254,7 @@ class Reports {
 		if ($_GET['h'] != "n") {
 			print "<table class=\"table tablesorter\" id=\"myTable\">";
 			print "<thead>";
-			print "<tr><th><b>Application</b></th><th><b>Title</b></th><th><b>Content</b></th><th><b>Created At</b></th><th><a>Updated At</a></th><th>&nbsp;</th></tr>";
+			print "<tr><th><b>Application</b></th><th><b>Title</b></th><th><b>Content</b></th><th><b>Created At</b></th><th><b>Updated At</b></th><th>&nbsp;</th></tr>";
 			print "</thead><tbody>";
 		} else {
 			print "Application,Title,Content,Created At,Updated At\r";
