@@ -11,6 +11,17 @@ class Push {
 		return $result;
 	}
 
+        private function get_proper_db($db) {
+                if ($_SESSION['database'] == DB1) {
+                        $name = $_SESSION['database'];
+                }
+                if ($_SESSION['database'] == DB2) {
+                        $name = $_SESSION['database'];
+                }
+
+                return $name;
+        }
+
 	public function get_settings() {
 		$server = explode(".",$_SERVER['HTTP_HOST']);
 		/*
@@ -184,8 +195,9 @@ class Push {
                         print "<br><font color=red>ACCESS DENIED</font><br>";
                         die;
                 }
+                $DB = $this->get_proper_db('1');
 
-		$sql = "SELECT * FROM ".APP_DB.".`template_block` WHERE `block_id` = '$id'";
+		$sql = "SELECT * FROM ".$DB.".`template_block` WHERE `block_id` = '$id'";
 		$result = $this->new_mysql($sql);
 		while ($row = $result->fetch_assoc()) {
 			print "<h2>$row[name]</h2>
@@ -379,6 +391,7 @@ class Push {
 		$settings = $this->get_settings();
 		$pem = $settings[2];
 		$pw = $settings[4];
+                $DB = $this->get_proper_db('1');
 		
 		if ($_POST['testmode'] == "checked") {
 	        $deviceToken = '9bd48932ae6f9723f3c10d0d586c5c2159f56b6d530f5c2d15ca67fcb501f1d6'; // robert
@@ -387,7 +400,7 @@ class Push {
 			$deviceToken = '43a3685c5ef144b888a914698951560c0f8e02f5463c006816036974d97c2009'; // john
             $counter[] = $this->push_loop_with_token($pem,$pw,$_POST['push'],$deviceToken);
 		} else {
-	        $sql = "SELECT * FROM `push_apns_devices` WHERE `app_id` = '$settings[3]' AND `status` = 'active'";
+	        $sql = "SELECT * FROM `$DB`.`push_apns_devices` WHERE `app_id` = '$settings[3]' AND `status` = 'active'";
 			$result = $this->new_mysql($sql);
 			while ($row = $result->fetch_assoc()) {
 				$i = "device_id_";
@@ -415,6 +428,7 @@ class Push {
         $settings = $this->get_settings();
 		$api = $settings[7];
 		$message = $_POST['push'];
+                $DB = $this->get_proper_db('1');
 
 
         if ($_POST['testmode'] == "checked") {
@@ -426,7 +440,7 @@ class Push {
             $counter[] = $this->push_android_loop_with_token($api,$message,$deviceToken);
 
 		} else {
-			$sql = "SELECT * FROM `push_gcm_devices` WHERE `app_id` = '$settings[3]' AND `development` = 'production' AND `status` = 'active'";
+			$sql = "SELECT * FROM `$DB`.`push_gcm_devices` WHERE `app_id` = '$settings[3]' AND `development` = 'production' AND `status` = 'active'";
             $result = $this->new_mysql($sql);
             while ($row = $result->fetch_assoc()) {
 	        	$deviceToken = $row['registration_id'];
@@ -541,8 +555,9 @@ class Push {
 
 	public function get_tokens($column) {
 		$settings = $this->get_settings();
+		$DB = $this->get_proper_db('1');
 
-		$sql = "SELECT * FROM `push_apns_devices` WHERE `app_id` = '$settings[3]' AND `status` = 'active'";
+		$sql = "SELECT * FROM `$DB`.`push_apns_devices` WHERE `app_id` = '$settings[3]' AND `status` = 'active'";
 		$result = $this->new_mysql($sql);
 		switch ($column) {
 			case "name":
@@ -557,8 +572,9 @@ class Push {
 
         public function get_tokens_android($column) {
                 $settings = $this->get_settings();
+                $DB = $this->get_proper_db('1');
 
-                $sql = "SELECT * FROM `push_gcm_devices` WHERE `app_id` = '$settings[3]' AND `status` = 'active' AND `development` = 'production'";
+                $sql = "SELECT * FROM `$DB`.`push_gcm_devices` WHERE `app_id` = '$settings[3]' AND `status` = 'active' AND `development` = 'production'";
                 $result = $this->new_mysql($sql);
                 switch ($column) {
                         case "name":
