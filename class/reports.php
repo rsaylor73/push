@@ -256,15 +256,15 @@ class Reports {
 		if ($_GET['h'] != "n") {
 			print "<table class=\"table tablesorter\" id=\"myTable\">";
 			print "<thead>";
-			print "<tr><th><b>Registration</b></th><th><b>First Name</b></th><th><b>Last Name</b></th><th><b>E-mail</b></th><th><b>Application</b></th><th>&nbsp;</th></tr>";
+			print "<tr><th><b>Registration</b></th><th><b>First Name</b></th><th><b>Last Name</b></th><th><b>E-mail</b></th><td><b>Phone</b></td><th><b>Application</b></th><th>&nbsp;</th></tr>";
 			print "</thead><tbody>";
 		} else {
-			print "Registration,First Name,Last Name,E-mail,Application\r";
+			print "Registration,First Name,Last Name,E-mail,Phone,Application\r";
 		}
 		$result = $this->new_mysql($sql);
 		while ($row = $result->fetch_assoc()) {
 			if ($_GET['h'] != 'n') {
-				print "<tr><td>$row[registered]</td><td>$row[firstname]</td><td>$row[lastname]</td><td>$row[email]</td><td>$row[name]</td>
+				print "<tr><td>$row[registered]</td><td>$row[firstname]</td><td>$row[lastname]</td><td>$row[email]</td><td>$row[phone]</td><td>$row[name]</td>
 				<td>
 				<button class=\"btn\" onclick=\"document.location.href='index.php?action=reports&type=viewcustomer&id=$row[customer_id]'\">
 				<i class=\"fa fa-search\" aria-hidden=\"true\"></i>
