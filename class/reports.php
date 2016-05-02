@@ -264,7 +264,7 @@ class Reports {
 		$result = $this->new_mysql($sql);
 		while ($row = $result->fetch_assoc()) {
 			if ($_GET['h'] != 'n') {
-				print "<tr><td>$row[registered]</td><td>$row[firstname]</td><td>$row[lastname]</td><td>$row[email]</td><td>$row[phone]</td><td>$row[name]</td>
+				print "<tr><td>$row[registered]</td><td>$row[firstname]</td><td>$row[lastname]</td><td>$row[email]</td><td>$row[phonenumber]</td><td>$row[name]</td>
 				<td>
 				<button class=\"btn\" onclick=\"document.location.href='index.php?action=reports&type=viewcustomer&id=$row[customer_id]'\">
 				<i class=\"fa fa-search\" aria-hidden=\"true\"></i>
