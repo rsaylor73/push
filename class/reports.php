@@ -289,6 +289,58 @@ class Reports {
 
 	}
 
+	private function viewpage_feature() {
+
+		$this->check_report_access();
+		$DB = $this->get_proper_db('1'); // update TBD
+		if ($_SESSION['app_id'] != "") {
+			$app_id = "AND `a`.`app_id` = '$_SESSION[app_id]'";
+		}
+
+		$sql = "
+		SELECT
+			`cap`.`value_id`,
+			`a`.`name`,
+			`cap`.`title`,
+			`cap`.`content`,
+			`cap`.`created_at`,
+			`cap`.`updated_at`,
+			`cap`.`page_id`
+
+		FROM
+			".$DB.".`cms_application_page` cap, 
+			".$DB.".`application_option_value` cov,
+			".$DB.".`application` a
+
+		WHERE
+			`cap`.`value_id` = `cov`.`value_id`
+			AND `cap`.`page_id` = '$_GET[id]'
+			AND `cov`.`app_id` = `a`.`app_id`
+			$app_id
+
+		ORDER BY `a`.`name` ASC
+		";
+
+		print "<h3>View Page/Feature</h3>
+		<button class=\"btn\" onclick=\"window.history.go(-1); return false;\">
+			<i class=\"fa fa-backward\" aria-hidden=\"true\"></i>
+		</button>
+		<table class=\"table\">";
+		$result = $this->new_mysql($sql);
+		while ($row = $result->fetch_assoc()) {
+			print "
+			<tr><td>Application:</td><td>$row[name]</td></tr>
+			<tr><td>Title:</td><td>$row[title]</td></tr>
+			<tr><td>Content:</td><td>$row[content]</td></tr>
+			<tr><td>Created At:</td><td>$row[created_at]</td></tr>
+			<tr><td>Updated At:</td><td>$row[updated_at]</td></tr>
+			";
+		}
+		print "</table>";
+
+	}
+
+
 	private function consumers() {
 		$this->check_report_access();
 
