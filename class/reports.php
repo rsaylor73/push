@@ -222,6 +222,8 @@ class Reports {
 			`cap`.`value_id` = `cov`.`value_id`
 			AND `cov`.`app_id` = `a`.`app_id`
 			$app_id
+
+		ORDER BY `a`.`name` ASC
 		";
 
 
