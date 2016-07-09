@@ -79,6 +79,10 @@ if ($check_login == "TRUE") {
             ?>
 
             <?php
+	    if (($_SESSION['chat'] == "Yes") && ($settings[9] != "Yes")) {
+	    	$chat_link = "<li><a href=\"index.php?action=reports&type=chat\">Chat Messages</a></li>";
+	    }
+
             if (($_SESSION['reports'] == "Yes") && ($settings[9] != "Yes")) {
               print '
             <li class="dropdown">
@@ -91,6 +95,7 @@ if ($check_login == "TRUE") {
               <li><a href="index.php?action=reports&type=ecommerce">Ecommerce</a></li>
               <li><a href="index.php?action=reports&type=page_feature">Page/Feature</a></li>
               <li><a href="index.php?action=reports&type=log">App Logs</a></li>
+	      '.$chat_link.'
             </ul>
             </li>
               ';
@@ -105,7 +110,9 @@ if ($check_login == "TRUE") {
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span class="caret"></span></a>
               <ul class="dropdown-menu">
               <li><a href="index.php?action=new_push_site">Create New User</a></li>
+	      <li><a href="index.php?action=new_chat_user">Create New Chat User</a></li>
               <li><a href="index.php?action=manage">Manage Users</a></li>
+	      <li><a href="index.php?action=chat_users">Manage Chat Users</a></li>
               </ul>
             </li>
 
@@ -137,6 +144,7 @@ if ($check_login == "TRUE") {
               <li><a href="index.php?action=reports&type=ecommerce">Ecommerce</a></li>
               <li><a href="index.php?action=reports&type=page_feature">Page/Feature</a></li>
               <li><a href="index.php?action=reports&type=log">App Logs</a></li>
+	      <li><a href="index.php?action=reports&type=chat">Chat Messages</a></li>
             </ul>
             </li>
 

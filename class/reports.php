@@ -340,6 +340,103 @@ class Reports {
 
 	}
 
+	private function chat() {
+                $this->check_report_access();
+                $DB = $this->get_proper_db('1'); // update TBD
+
+                if ($_SESSION['app_id'] != "") {
+			$app_id = "AND `m`.`appID` = '$_SESSION[app_id]'";
+                }
+
+		if ($DB == "siberian_appwizard2") {
+			$app_version = "app";
+		} else {
+			$app_version = "app2";
+		}
+
+		$sql = "
+		SELECT
+			`a`.`name`,
+			DATE_FORMAT(`m`.`date`, '%m/%d/%Y') AS 'date_formatted',
+			`m`.`time`,
+			`u`.`alias`,
+			`m`.`message`
+
+		FROM
+			`push_chat`.`messages` m,
+			`push_chat`.`users` u,
+			".$DB.".`application` a
+
+		WHERE
+			`m`.`app_version` = '$app_version'
+			AND `m`.`userID` = `u`.`id`
+			$app_id
+			AND `m`.`appID` = `a`.`app_id`
+		
+		ORDER BY `m`.`date` ASC, `m`.`time` ASC
+
+		";
+
+                // page numbers
+                $url = "index.php?action=reports&type=chat&page=";
+                $show_pages = $this->page_numbers($sql,$url);
+
+                if ($_GET['h'] != "n") {
+
+
+                        if ($_GET['stop'] == "") {
+                                $stop = "0";
+                        } else {
+                                $stop = $_GET['stop'];
+                        }
+                        $sql .= "LIMIT $stop,20";
+
+                        print "$show_pages";
+                        print "<h3>Chat Messages</h3>";
+                        print "<i>Click a table heading to sort</i>&nbsp;&nbsp;&nbsp;";
+                        print "<button class=\"btn\" onclick=\"window.open('index.php?action=reports&type=chat&h=n')\">
+                        <i class=\"fa fa-download\" aria-hidden=\"true\"></i>
+                        </button>
+                        ";
+                } else {
+                        $this->meta_data('chat.csv');
+                }
+                if ($_GET['h'] != "n") {
+                        print "<table class=\"table tablesorter\" id=\"myTable\">";
+                        print "<thead>";
+                        print "<tr><th><b>Date</b></th><th><b>Time</b></th><th><b>Alias</b></th><th><b>Message</b></th><th><b>Application</b></th></tr>";
+                        print "</thead><tbody>";
+                } else {
+                        print "Date,Time,Alias,Message,Application\r";
+                }
+                $result = $this->new_mysql($sql);
+                while ($row = $result->fetch_assoc()) {
+                        if ($_GET['h'] != 'n') {
+                                print "<tr><td>$row[date_formatted]</td><td>$row[time]</td><td>$row[alias]</td><td>$row[message]</td><td>$row[name]</td></tr>";
+                        } else {
+				$row['message'] = str_replace(",","",$row['message']);
+				$row['message'] = preg_replace( "/\r|\n/", "", $row['message']);
+
+                                print "$row[date_formatted],$row[time],$row[alias],$row[message],$row[name]\r";
+                        }
+                }
+                if ($_GET['h'] != "n") {
+                        print "</tbody></table>";
+                }
+                if ($_GET['h'] != "n") {
+                ?>
+                <script>
+                $(document).ready(function() { 
+                $("#myTable").tablesorter(); 
+        } 
+                ); 
+                </script>
+                <?php
+                }
+
+
+	}
+
 
 	private function consumers() {
 		$this->check_report_access();

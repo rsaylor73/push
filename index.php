@@ -67,6 +67,26 @@ if ($_POST['action'] == "update_block") {
 	$push->update_block();
 }
 
+if ($_GET['action'] == "chat_users") {
+	$push->chat_users();
+}
+
+if ($_GET['action'] == "delete_chat_user") {
+	$push->delete_chat_user();
+}
+
+if ($_GET['action'] == "edit_chat_user") {
+	$push->edit_chat_user();
+}
+if ($_POST['action'] == "update_chat_user") {
+	$push->update_chat_user();
+}
+if ($_GET['action'] == "new_chat_user") {
+	$push->new_chat_user();
+}
+if ($_POST['action'] == "save_chat_user") {
+	$push->save_chat_user();
+}
 /* ------- Reports ------------ */
 
 if ($_GET['action'] == "reports") {

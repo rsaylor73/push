@@ -49,11 +49,13 @@ class Push {
 				$_SESSION['app_id'] = $id;
 				$_SESSION['reports'] = $row['reports'];
 				$_SESSION['push'] = $row['push'];
+				$_SESSION['chat'] = $row['chat'];
 			} else {
 				// super admin
 				$_SESSION['push'] = $row['push'];
 				$_SESSION['app_id'] = "";
 				$_SESSION['reports'] = "";
+				$_SESSION['chat'] = "";
 			}
 
 			switch ($server[0]) {
@@ -628,9 +630,185 @@ class Push {
         </select></td></tr>
         <tr><td>Push Notification</td><td><select name=\"push\"><option>No</option><option>Yes</option></select></td></tr>
         <tr><td>Reports:</td><td><select name=\"reports\"><option>No</option><option>Yes</option></select></td></tr>
+	<tr><td>Chat:</td><td><select name=\"chat\"><option>No</option><option>Yes</option></select></td></tr>
 		<tr><td colspan=2><input type=\"submit\" class=\"btn btn-primary\" value=\"Add User\"><br><font color=blue><b>NOTE: Please wait after clicking the button above. We are actually talking to cPanel to create the sub sub domain. This could take a few minutes for the API to get a return value.</font></b></td></tr>
 		</table>
 		</form>";
+	}
+
+	public function chat_users() {
+                $settings = $this->get_settings();
+                if ($settings[9] != "Yes") {
+                        print "<br><font color=red>ACCESS DENIED</font><br>";
+                        die;
+                }
+		print "<h2>Manage Chat Users</h2>
+		<table class=\"table\">
+		<tr><td><b>Name</b></td><td><b>Email</b></td><td><b>Date Registered</b></td><td><b>Alias</b></td><td>&nbsp;</td></tr>";
+
+		$sql = "
+		SELECT 
+			DATE_FORMAT(`u`.`date_registered`, '%m/%d/%Y') AS 'date_registered',
+			`u`.`fname`,
+			`u`.`lname`,
+			`u`.`email`,
+			`u`.`id`,
+			`u`.`alias`
+
+		FROM `push_chat`.`users` u
+
+		ORDER BY `u`.`lname` ASC, `u`.`fname` ASC
+		";
+		$result = $this->new_mysql($sql);
+		while ($row = $result->fetch_assoc()) {
+			print "<tr><td>$row[fname] $row[lname]</td><td>$row[email]</td><td>$row[date_registered]</td><td>$row[alias]</td>
+			<td>
+			<input type=\"button\" class=\"btn btn-primary\" value=\"Edit\" onclick=\"document.location.href='index.php?action=edit_chat_user&id=$row[id]'\">&nbsp;
+			<input type=\"button\" class=\"btn btn-danger\" value=\"Delete\" onclick=\"if(confirm('You are about to delete this user')) { document.location.href='index.php?action=delete_chat_user&id=$row[id]' };\">
+			</td></tr>";
+			$found = "1";
+		}
+		if ($found != "1") {
+			print "<tr><td colspan=5><font color=blue>There are no chat users</font></td></tr>";
+		}
+		print "</table>";
+
+	}
+
+        public function new_chat_user() {
+                $settings = $this->get_settings();
+                if ($settings[9] != "Yes") {
+                        print "<br><font color=red>ACCESS DENIED</font><br>";
+                        die;
+                }
+                
+                print "<h2>Add Chat User</h2>";
+                print "<form action=\"index.php\" method=\"post\">
+                <input type=\"hidden\" name=\"action\" value=\"save_chat_user\">
+                <input type=\"hidden\" name=\"id\" value=\"$_GET[id]\">
+                <table class=\"table\">
+                <tr><td>First Name:</td><td><input type=\"text\" name=\"fname\" value=\"$row[fname]\" size=40 required></td></tr>
+                <tr><td>Last Name:</td><td><input type=\"text\" name=\"lname\" value=\"$row[lname]\" size=40 required></td></tr>
+                <tr><td>Email:</td><td><input type=\"text\" name=\"email\" value=\"$row[email]\" size=40 required></td></tr>
+                <tr><td>Username:</td><td><input type=\"text\" name=\"uuname\" size=20 required></td></tr>
+                <tr><td>Alias:</td><td><input type=\"text\" name=\"alias\" size=40 required></td></tr>
+                <tr><td>Password:</td><td><input type=\"password\" name=\"uupass\" size=40 placeholder=\"********\" required></td></tr>
+                <tr><td colspan=2><input type=\"submit\" class=\"btn btn-primary\" value=\"Add\"></td></tr>
+                </table>
+                </form>";
+        }
+
+	public function save_chat_user() {
+                $settings = $this->get_settings();
+                if ($settings[9] != "Yes") {
+                        print "<br><font color=red>ACCESS DENIED</font><br>";
+                        die;
+                }
+
+                $sql = "SELECT `email` FROM `push_chat`.`users` WHERE `email` = '$_POST[email]'";
+                $result = $this->new_mysql($sql);
+                while ($row = $result->fetch_assoc()) {
+                        print "<br><font color=red>Sorry, the email <b>$_POST[email]</b> is registered with another chat user.</font><br>";
+                        die;
+                }
+
+                $sql = "SELECT `uuname` FROM `push_chat`.`users` WHERE `uuname` = '$_POST[uuname]'";
+                $result = $this->new_mysql($sql);
+                while ($row = $result->fetch_assoc()) {
+                        print "<br><font color=red>Sorry, the username <b>$_POST[uuname]</b> is registered with another chat user.</font><br>";
+                        die;
+                }
+
+                $sql = "SELECT `alias` FROM `push_chat`.`users` WHERE `alias` = '$_POST[alias]'";
+                $result = $this->new_mysql($sql);
+                while ($row = $result->fetch_assoc()) {
+                        print "<br><font color=red>Sorry, the email <b>$_POST[alias]</b> is registered with another chat user.</font><br>";
+                        die;
+                }
+
+		$new_pass = md5($_POST['uupass']);
+		$date = date("Ymd");
+		$sql = "INSERT INTO `push_chat`.`users` (`uuname`,`uupass`,`fname`,`lname`,`email`,`date_registered`,`alias`) VALUES
+		('$_POST[uuname]','$new_pass','$_POST[fname]','$_POST[lname]','$_POST[email]','$date','$_POST[alias]')";
+                $result = $this->new_mysql($sql);
+                if ($result == "TRUE") {
+                        print "<br><font color=green>The chat user was added.</font><br>";
+                } else {
+                        print "<br><font color=red>The chat user failed to add.</font><br>";
+                }
+                $this->chat_users();
+	}
+
+	public function edit_chat_user() {
+                $settings = $this->get_settings();
+                if ($settings[9] != "Yes") {
+                        print "<br><font color=red>ACCESS DENIED</font><br>";
+                        die;
+                }
+
+		$sql = "SELECT * FROM `push_chat`.`users` WHERE `id` = '$_GET[id]'";
+		$result = $this->new_mysql($sql);
+		$row = $result->fetch_assoc();
+
+		print "<h2>Edit Chat User</h2>";
+		print "<form action=\"index.php\" method=\"post\">
+		<input type=\"hidden\" name=\"action\" value=\"update_chat_user\">
+		<input type=\"hidden\" name=\"id\" value=\"$_GET[id]\">
+		<table class=\"table\">
+		<tr><td>First Name:</td><td><input type=\"text\" name=\"fname\" value=\"$row[fname]\" size=40 required></td></tr>
+		<tr><td>Last Name:</td><td><input type=\"text\" name=\"lname\" value=\"$row[lname]\" size=40 required></td></tr>
+		<tr><td>Email:</td><td><input type=\"text\" name=\"email\" value=\"$row[email]\" size=40 required></td></tr>
+		<tr><td>Username:</td><td>$row[uuname]</td></tr>
+		<tr><td>Alias:</td><td>$row[alias]</td></tr>
+		<tr><td>Password:</td><td><input type=\"password\" name=\"uupass\" size=40 placeholder=\"********\"></td></tr>
+		<tr><td colspan=2><input type=\"submit\" class=\"btn btn-primary\" value=\"Update\"></td></tr>
+		</table>
+		</form>";	
+	}
+
+	public function update_chat_user() {
+                $settings = $this->get_settings();
+                if ($settings[9] != "Yes") {
+                        print "<br><font color=red>ACCESS DENIED</font><br>";
+                        die;
+                }
+
+		$sql = "SELECT `email` FROM `push_chat`.`users` WHERE `email` = '$_POST[email]' AND `id` != '$_POST[id]'";
+		$result = $this->new_mysql($sql);
+		while ($row = $result->fetch_assoc()) {
+			print "<br><font color=red>Sorry, the email <b>$_POST[email]</b> is registered with another chat user.</font><br>";
+			die;
+		}
+
+		if ($_POST['uupass'] != "") {
+			$new_pass = md5($_POST['uupass']);
+			$pass_sql = ",`uupass` = '$new_pass'";
+		}
+		$sql = "UPDATE `push_chat`.`users` SET `fname` = '$_POST[fname]', `lname` = '$_POST[lname]', `email` = '$_POST[email]' $pass_sql WHERE `id` = '$_POST[id]'";
+                $result = $this->new_mysql($sql);
+                if ($result == "TRUE") {
+                        print "<br><font color=green>The chat user was updated.</font><br>";
+                } else {
+                        print "<br><font color=red>The chat user failed to update.</font><br>";
+                }
+                $this->chat_users();
+	}
+
+	public function delete_chat_user() {
+                $settings = $this->get_settings();
+                if ($settings[9] != "Yes") {
+                        print "<br><font color=red>ACCESS DENIED</font><br>";
+                        die;
+                }
+
+		$sql = "DELETE FROM `push_chat`.`users` WHERE `id` = '$_GET[id]'";
+		$result = $this->new_mysql($sql);
+                if ($result == "TRUE") {
+                        print "<br><font color=green>The chat user was deleted.</font><br>";
+                } else {
+                        print "<br><font color=red>The chat user failed to delete.</font><br>";
+                }
+                $this->chat_users();
 	}
 
 	public function manage() {
@@ -647,6 +825,7 @@ class Push {
 			<td><b>URL</b></td>
 			<td><b>Push Notifications</b></td>
 			<td><b>Reports</b></td>
+			<td><b>Chat</b></td>
 			<td><b>Database</b></td>
 			<td><b>Username</b></td>
 			<td><b>Password</b></td>
@@ -685,6 +864,7 @@ class Push {
 			print "
 			<td>$row[push]</td>
 			<td>$row[reports]</td>
+			<td>$row[chat]</td>
 			<td>$d</td>
 			<td>$row[uuname]</td>
 			<td>$row[uupass]</td>
@@ -710,6 +890,13 @@ class Push {
 		$sql = "SELECT * FROM ".LOCAL_DB.".`sites` WHERE `id` = '$_GET[id]'";
 		$result = $this->new_mysql($sql);
 		while ($row = $result->fetch_assoc()) {
+
+		if ($row['database'] == "siberian_appwizard2") {
+			$app_version = "app";
+		} else {
+			$app_version = "app2";
+		}
+
                 print "<h2>Edit User:</h2>";
 
                 print "<form action=\"index.php\" method=\"post\" enctype=\"multipart/form-data\">
@@ -732,6 +919,8 @@ class Push {
                 <tr><td>Push Notification</td><td><select name=\"push\"><option selected>$row[push]</option><option>No</option><option>Yes</option></select></td></tr>
 
                 <tr><td>Reports:</td><td><select name=\"reports\"><option selected>$row[reports]</option><option>No</option><option>Yes</option></select></td></tr>
+		<tr><td>Chat:</td><td><select name=\"chat\"><option selected>$row[chat]</option><option>No</option><option>Yes</option></select></td></tr>
+		<tr><td colspan=2>Chat Link: http://push.theappwizards.com/chat/$app_version/$row[app_id]</td></tr>
                 <tr><td colspan=2><input type=\"submit\" class=\"btn btn-primary\" value=\"Update User\"><br>
 		</td></tr>
                 </table>
@@ -787,7 +976,7 @@ class Push {
 			$logo = ",`logo` = '$fileName2'";
 		}
 		$sql = "UPDATE ".LOCAL_DB.".`sites` SET `app_id` = '$_POST[app_id]', `crypto` = '$_POST[crypto]', `uupass` = '$_POST[uupass]',`database` = '$_POST[database]',
-		`reports` = '$_POST[reports]', `push` = '$_POST[push]' $pem $logo WHERE `id` = '$_POST[id]'";
+		`reports` = '$_POST[reports]', `push` = '$_POST[push]', `chat` = '$_POST[chat]' $pem $logo WHERE `id` = '$_POST[id]'";
 		$result = $this->new_mysql($sql);
 		if ($result == "TRUE") {
 			print "<br><font color=green>The site was updated.</font><br>";
@@ -873,8 +1062,8 @@ class Push {
                         move_uploaded_file("$tmpName", "$fileName");
                         move_uploaded_file("$tmpName2", "img/$fileName2");
 
-			$sql = "INSERT INTO ".LOCAL_DB.".`sites` (`sub`,`pem`,`app_id`,`crypto`,`logo`,`uuname`,`uupass`,`database`,`reports`,`push`) VALUES
-			('$_POST[sub]','$fileName','$_POST[app_id]','$_POST[crypto]','$fileName2','$_POST[uuname]','$_POST[uupass]','$_POST[database]','$_POST[reports]','$_POST[push]')";
+			$sql = "INSERT INTO ".LOCAL_DB.".`sites` (`sub`,`pem`,`app_id`,`crypto`,`logo`,`uuname`,`uupass`,`database`,`reports`,`push`,`chat`) VALUES
+			('$_POST[sub]','$fileName','$_POST[app_id]','$_POST[crypto]','$fileName2','$_POST[uuname]','$_POST[uupass]','$_POST[database]','$_POST[reports]','$_POST[push]','$_POST[chat]')";
 			$result = $this->new_mysql($sql);
 			if ($result == "TRUE") {
 				print "<font color=blue>Config was updated.</font><br>";
